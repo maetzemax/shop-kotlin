@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "693189163285",
+    "project_id": "shop-2a2dd",
+    "storage_bucket": "shop-2a2dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693189163285:android:a115ed751e6f41765b111c",
+        "android_client_info": {
+          "package_name": "com.maetzedev.shop_kotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693189163285-enl5gpee4bafacedh153ncsad0rvgrfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs9lTELUyKOjqGbvdX_JJxoa8W5wH37OA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693189163285-enl5gpee4bafacedh153ncsad0rvgrfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
