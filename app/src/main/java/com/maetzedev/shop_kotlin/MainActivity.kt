@@ -18,26 +18,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShopkotlinTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+                Surface(){
+                    // TODO: Implement Start Screen
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ShopkotlinTheme {
-        Greeting("Android")
     }
 }
