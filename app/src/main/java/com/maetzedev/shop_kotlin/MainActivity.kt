@@ -5,32 +5,38 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.maetzedev.shop_kotlin.auth.PasswordTooShort
+import com.maetzedev.shop_kotlin.auth.PasswordsDontMatch
+import com.maetzedev.shop_kotlin.auth.RegisterFailed
+import com.maetzedev.shop_kotlin.auth.UserAuth
 import com.maetzedev.shop_kotlin.ui.screen.RegisterScreen
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 
 class MainActivity : ComponentActivity() {
-    private lateinit var auth: FirebaseAuth
+    private var userAuth = UserAuth()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
-
-        Log.e("TEST", auth.currentUser.toString())
 
         setContent {
             ShopkotlinTheme {
-                // A surface container using the 'background' color from the theme
                 Surface {
                     // TODO: Implement Start Screen
                     RegisterScreen(
-                        onClickRegister = {
-                            Log.d("D/Registration", "Register Button pressed")
+                        onClickRegister = { email, password ->
+                            try {
+                                userAuth.register(email, password)
+                            } catch (e: RegisterFailed) {
+                                Log.e("E/Registration", e.message.toString())
+                            } catch (e: PasswordTooShort) {
+                                Log.e("E/Registration", e.message.toString())
+                            } catch (e: PasswordsDontMatch) {
+                                Log.e("E/Registration", e.message.toString())
+                            }
+                            // send to home screen
                         },
                         onClickLogin = {
-                            Log.d("D/Registration", "Login Button pressed")
+                            Log.d("Registration", "Login Button pressed")
                         }
                     )
                 }
