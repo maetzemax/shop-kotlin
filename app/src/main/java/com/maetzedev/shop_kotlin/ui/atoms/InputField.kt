@@ -2,7 +2,6 @@ package com.maetzedev.shop_kotlin.ui.atoms
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -18,6 +17,20 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
+fun getKeyBoardOptions(isEmail: Boolean, isPassword: Boolean): KeyboardOptions {
+    var keyboardType = KeyboardType.Text
+
+    if (isEmail) {
+        keyboardType = KeyboardType.Email
+    }
+
+    if (isPassword) {
+        keyboardType = KeyboardType.Password
+    }
+
+    return KeyboardOptions(keyboardType = keyboardType)
+}
+
 // TODO: change TextField to BasicTextField to match the Adobe XD styles
 @Composable
 fun InputField(
@@ -28,32 +41,34 @@ fun InputField(
     hintText: String? = null,
     isPassword: Boolean = false,
     isEmail: Boolean = false,
+    errorText: String = "",
 ) {
     Column {
         if (label != null) {
             Text(text = label, fontWeight = FontWeight.Bold)
         }
-        
         if (hintText != null) {
             Text(text = hintText, fontSize = 12.sp)
         }
-
+        if (errorText != "") {
+            Text(errorText, color = Color.Red, fontSize = 12.sp)
+        }
         TextField(
-            value = value,
-            onValueChange = onValueChange,
+            value,
+            onValueChange,
+            Modifier.fillMaxWidth(),
             placeholder = {
                 if (placeHolder != null) {
                     Text(text = placeHolder)
                 }
             },
             visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-            modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent
             ),
             singleLine = true,
             textStyle = TextStyle(textAlign = TextAlign.Start),
-            keyboardOptions = KeyboardOptions(keyboardType = if (isEmail) KeyboardType.Email else KeyboardType.Text)
+            keyboardOptions = getKeyBoardOptions(isEmail, isPassword)
         )
     }
 }

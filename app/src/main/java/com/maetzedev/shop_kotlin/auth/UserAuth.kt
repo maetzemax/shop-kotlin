@@ -1,13 +1,42 @@
 package com.maetzedev.shop_kotlin.auth
 
+import android.text.TextUtils
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
 class UserAuth {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
+
+    private fun String.isEmailValid(): Boolean {
+        return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    }
+
+
+
+    @Throws(EmailNotValid::class)
+    fun checkEmail(email: String) {
+        if (!email.isEmailValid()) {
+           throw EmailNotValid()
+        }
+    }
+
+    @Throws(PasswordTooShort::class)
+    fun checkPassword(password: String) {
+        if (password.length < 9) {
+            throw PasswordTooShort()
+        }
+    }
+
+    @Throws(PasswordsDontMatch::class)
+    fun checkPasswordConfirmation(password: String, passwordConfirmation: String) {
+        if (password != passwordConfirmation) {
+            throw PasswordsDontMatch()
+        }
+    }
+
     @Throws(PasswordTooShort::class, PasswordsDontMatch::class)
-    private fun checkRegisterRequirements(email: String, password: String, passwordConfirmation: String) {
+    fun checkRegisterRequirements(email: String, password: String, passwordConfirmation: String) {
         // Password and passwordConfirmation must match
         if (password != passwordConfirmation) {
             throw PasswordsDontMatch()

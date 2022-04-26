@@ -17,6 +17,11 @@ class PasswordsDontMatch(
     cause: Throwable? = null,
 ) : CustomException(message, cause)
 
+class EmailNotValid(
+    message: String = "E-Mail not valid",
+    cause: Throwable? = null,
+) : CustomException(message, cause)
+
 class RegisterFailed(
     message: String = "Registration failed",
     cause: Throwable? = null

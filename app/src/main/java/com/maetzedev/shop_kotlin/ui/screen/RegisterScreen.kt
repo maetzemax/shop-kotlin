@@ -13,75 +13,120 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.maetzedev.shop_kotlin.auth.UserAuth
 import com.maetzedev.shop_kotlin.ui.atoms.Container
 import com.maetzedev.shop_kotlin.ui.atoms.InputField
 import com.maetzedev.shop_kotlin.ui.atoms.ScreenHeadline
+import java.lang.Exception
 
 @Composable
-fun RegisterScreen(onClickRegister: (email: String, password: String) -> Unit, onClickLogin: () -> Unit) {
+fun RegisterScreen(
+    onClickRegister: (email: String, password: String) -> Unit,
+    onClickLogin: () -> Unit
+) {
+    val userAuth = UserAuth()
+
     val (email, setEmail) = remember { mutableStateOf("") }
     val (userName, setUserName) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (passwordConfirmation, setPasswordConfirmation) = remember { mutableStateOf("") }
 
-    Container() {
-        Column() {
-            ScreenHeadline(text = "Registrierung")
-            Spacer(modifier = Modifier.size(100.dp))
+    val (emailError, setEmailError) = remember { mutableStateOf("") }
+    val (passwordError, setPasswordError) = remember { mutableStateOf("") }
+    val (passwordConfirmationError, setPasswordConfirmationError) = remember { mutableStateOf("") }
+
+    fun handleOnEmailChange(value: String) {
+        setEmail(value)
+        setEmailError("")
+        try {
+            if (email.isNotEmpty()) {
+                userAuth.checkEmail(value)
+            }
+        } catch (e: Exception) {
+            setEmailError(e.message.toString())
+        }
+    }
+
+    fun handleOnPasswordChange(value: String) {
+        setPassword(value)
+        setPasswordError("")
+        try {
+            userAuth.checkPassword(value)
+        } catch (e: Exception) {
+            setPasswordError(e.message.toString())
+        }
+    }
+
+    fun handleOnPasswordConfirmationChange(value: String) {
+        setPasswordConfirmation(value)
+        setPasswordConfirmationError("")
+        try {
+            userAuth.checkPasswordConfirmation(password, value)
+        } catch (e: Exception) {
+            setPasswordConfirmationError(e.message.toString())
+        }
+    }
+
+    Container {
+        Column {
+            ScreenHeadline("Registrierung")
+            Spacer(Modifier.size(80.dp))
             InputField(
-                value = email,
-                onValueChange = { setEmail(it) },
-                label = "E-Mail Adresse",
-                placeHolder = "example@website.com",
-                isEmail = true
+                email,
+                { handleOnEmailChange(it) },
+                "E-Mail Adresse",
+                "example@website.com",
+                isEmail = true,
+                errorText = emailError
             )
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(Modifier.size(20.dp))
             InputField(
-                value = userName,
-                onValueChange = { setUserName(it) },
-                label = "Nutzername",
-                placeHolder = "mustername"
+                userName,
+                { setUserName(it) },
+                "Nutzername",
+                "mustername"
             )
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(Modifier.size(20.dp))
             InputField(
-                value = password,
-                onValueChange = { setPassword(it) },
-                label = "Passwort",
-                placeHolder = "Passwort",
-                hintText = "Das Passwort muss aus mind. 8 Zeichen bestehen",
+                password,
+                { handleOnPasswordChange(it) },
+                "Passwort",
+                "Passwort",
+                "Das Passwort muss aus mind. 8 Zeichen bestehen",
                 isPassword = true,
+                errorText = passwordError
             )
             InputField(
-                value = passwordConfirmation,
-                onValueChange = { setPasswordConfirmation(it) },
-                placeHolder = "Passwort wiederholen",
+                passwordConfirmation,
+                { handleOnPasswordConfirmationChange(it) },
+                "Passwort wiederholen",
                 isPassword = true,
+                errorText = passwordConfirmationError
             )
             Spacer(modifier = Modifier.size(20.dp))
             Button(
-                onClick = { onClickRegister(email, password) },
-                modifier = Modifier.fillMaxWidth(),
+                { onClickRegister(email, password) },
+                Modifier.fillMaxWidth(),
                 shape = CircleShape
             ) {
-                Text(text = "Registrieren")
+                Text("Registrieren")
             }
 
             Divider()
 
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                Modifier
+                    .fillMaxWidth()
                     .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center
+                Arrangement.Center,
+                Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Bereits ein Konto?",
+                    "Bereits ein Konto?",
                     color = Color.Gray
                 )
 
-                TextButton(
-                    onClick = onClickLogin,
-                ) {
+                TextButton(onClickLogin) {
                     Text("Anmelden")
                 }
             }
