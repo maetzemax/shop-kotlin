@@ -1,4 +1,4 @@
-package com.maetzedev.shop_kotlin.ui.atoms
+package com.maetzedev.shop_kotlin.uicomponents.compose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

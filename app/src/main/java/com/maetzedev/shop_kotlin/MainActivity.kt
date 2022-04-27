@@ -9,7 +9,7 @@ import com.maetzedev.shop_kotlin.auth.PasswordTooShort
 import com.maetzedev.shop_kotlin.auth.PasswordsDontMatch
 import com.maetzedev.shop_kotlin.auth.RegisterFailed
 import com.maetzedev.shop_kotlin.auth.UserAuth
-import com.maetzedev.shop_kotlin.ui.screen.RegisterScreen
+import com.maetzedev.shop_kotlin.screens.auth.register.RegisterScreen
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 
 class MainActivity : ComponentActivity() {
