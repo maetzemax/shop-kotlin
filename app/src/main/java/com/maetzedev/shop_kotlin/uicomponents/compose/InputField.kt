@@ -32,6 +32,18 @@ fun getKeyBoardOptions(isEmail: Boolean, isPassword: Boolean): KeyboardOptions {
 }
 
 // TODO: change TextField to BasicTextField to match the Adobe XD styles
+/**
+ * InputField
+ * renders a textfield with some adjustments
+ * @param value input value
+ * @param onValueChange fun which updates state
+ * @param label (optional)
+ * @param placeHolder (optional)
+ * @param hintText (optional)
+ * @param isPassword shows a password field if true
+ * @param isEmail shows a email field if true
+ * @param errorText (optional)
+ */
 @Composable
 fun InputField(
     value: String,

@@ -19,6 +19,12 @@ import com.maetzedev.shop_kotlin.uicomponents.compose.InputField
 import com.maetzedev.shop_kotlin.uicomponents.compose.ScreenHeadline
 import java.lang.Exception
 
+/**
+ * RegisterScreen
+ * contains the register screen and its ui logic
+ * @param onClickLogin onClickListener
+ * @param onClickRegister onClickListener
+ */
 @Composable
 fun RegisterScreen(
     onClickRegister: (email: String, password: String) -> Unit,

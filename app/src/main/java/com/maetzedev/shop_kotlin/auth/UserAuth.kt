@@ -4,15 +4,16 @@ import android.text.TextUtils
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * UserAuth
+ * contains functions to interact with firebase
+ */
 class UserAuth {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
-
 
     private fun String.isEmailValid(): Boolean {
         return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
     }
-
-
 
     @Throws(EmailNotValid::class)
     fun checkEmail(email: String) {

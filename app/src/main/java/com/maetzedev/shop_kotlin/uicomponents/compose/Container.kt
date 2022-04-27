@@ -8,12 +8,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Container
+ * renders a custom column with predefined padding for consistent styling
+ * @param centerVertical centers children vertical if true
+ * @param centerHorizontal centers children horizontal if true
+ * @param children composable components
+ */
 @Composable
-fun Container(centerVertical: Boolean = false, centerHorizontal: Boolean = false, children: @Composable () -> Unit) {
+fun Container(
+    centerVertical: Boolean = false,
+    centerHorizontal: Boolean = false,
+    children: @Composable () -> Unit
+) {
     Column(
-        modifier = Modifier.padding(start = 15.dp, top = 30.dp, end = 15.dp),
-        verticalArrangement = if (centerVertical) Arrangement.Center else Arrangement.Top,
-        horizontalAlignment = if (centerHorizontal) Alignment.CenterHorizontally else Alignment.Start
+        Modifier.padding(start = 15.dp, top = 30.dp, end = 15.dp),
+        if (centerVertical) Arrangement.Center else Arrangement.Top,
+        if (centerHorizontal) Alignment.CenterHorizontally else Alignment.Start
     ) {
         children()
     }
