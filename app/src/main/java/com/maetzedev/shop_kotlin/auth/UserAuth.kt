@@ -38,14 +38,10 @@ class UserAuth {
     @Throws(PasswordTooShort::class, PasswordsDontMatch::class)
     fun checkRegisterRequirements(email: String, password: String, passwordConfirmation: String) {
         // Password and passwordConfirmation must match
-        if (password != passwordConfirmation) {
-            throw PasswordsDontMatch()
-        }
+        checkPasswordConfirmation(password, passwordConfirmation)
 
         // Password must contain at least 8 chars
-        if (password.length < 9) {
-            throw PasswordTooShort()
-        }
+        checkPassword(password)
     }
 
     @Throws(RegisterFailed::class)
