@@ -45,7 +45,7 @@ fun RegisterScreen(
         setEmail(value)
         setEmailError("")
         try {
-            if (email.isNotEmpty()) {
+            if (value.isNotEmpty()) {
                 userAuth.checkEmail(value)
             }
         } catch (e: Exception) {
