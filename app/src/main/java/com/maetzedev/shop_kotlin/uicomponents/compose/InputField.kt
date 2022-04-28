@@ -1,20 +1,23 @@
 package com.maetzedev.shop_kotlin.uicomponents.compose
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
+import androidx.compose.material.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 fun getKeyBoardOptions(isEmail: Boolean, isPassword: Boolean): KeyboardOptions {
@@ -55,6 +58,8 @@ fun InputField(
     isEmail: Boolean = false,
     errorText: String = "",
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Column {
         if (label != null) {
             Text(text = label, fontWeight = FontWeight.Bold)
@@ -65,22 +70,33 @@ fun InputField(
         if (errorText != "") {
             Text(errorText, color = Color.Red, fontSize = 12.sp)
         }
-        TextField(
+        BasicTextField(
             value,
             onValueChange,
-            Modifier.fillMaxWidth(),
-            placeholder = {
-                if (placeHolder != null) {
-                    Text(text = placeHolder)
-                }
-            },
+            Modifier
+                .fillMaxWidth()
+                .indicatorLine(
+                    enabled = true,
+                    isError = errorText.isNotEmpty(),
+                    interactionSource = interactionSource,
+                    colors = TextFieldDefaults.textFieldColors()
+                ),
             visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.Transparent
-            ),
             singleLine = true,
-            textStyle = TextStyle(textAlign = TextAlign.Start),
-            keyboardOptions = getKeyBoardOptions(isEmail, isPassword)
-        )
+            keyboardOptions = getKeyBoardOptions(isEmail, isPassword),
+        ) { innerTextField ->
+            TextFieldDefaults.TextFieldDecorationBox(
+                value = value,
+                innerTextField = innerTextField,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = {
+                    if (placeHolder != null) Text(placeHolder)
+                },
+                contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 10.dp, bottom = 10.dp),
+            )
+        }
     }
 }

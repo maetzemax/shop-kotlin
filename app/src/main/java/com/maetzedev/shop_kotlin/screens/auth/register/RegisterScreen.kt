@@ -1,5 +1,6 @@
 package com.maetzedev.shop_kotlin.screens.auth.register
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
@@ -12,26 +13,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.auth.UserAuth
 import com.maetzedev.shop_kotlin.uicomponents.compose.Container
 import com.maetzedev.shop_kotlin.uicomponents.compose.InputField
 import com.maetzedev.shop_kotlin.uicomponents.compose.ScreenHeadline
-import java.lang.Exception
 
 /**
  * RegisterScreen
  * contains the register screen and its ui logic
- * @param onClickLogin onClickListener
- * @param onClickRegister onClickListener
+ * @param registerScreenViewModel RegisterScreenViewModel
  */
 @Composable
 fun RegisterScreen(
-    onClickRegister: (email: String, password: String) -> Unit,
-    onClickLogin: () -> Unit
+    registerScreenViewModel: RegisterScreenViewModel = RegisterScreenViewModel(
+        UserAuth()
+    )
 ) {
-    val userAuth = UserAuth()
-
     val (email, setEmail) = remember { mutableStateOf("") }
     val (userName, setUserName) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
@@ -41,77 +40,70 @@ fun RegisterScreen(
     val (passwordError, setPasswordError) = remember { mutableStateOf("") }
     val (passwordConfirmationError, setPasswordConfirmationError) = remember { mutableStateOf("") }
 
-    fun handleOnEmailChange(value: String) {
-        setEmail(value)
-        setEmailError("")
-        try {
-            if (value.isNotEmpty()) {
-                userAuth.checkEmail(value)
-            }
-        } catch (e: Exception) {
-            setEmailError(e.message.toString())
-        }
-    }
-
-    fun handleOnPasswordChange(value: String) {
-        setPassword(value)
-        setPasswordError("")
-        try {
-            userAuth.checkPassword(value)
-        } catch (e: Exception) {
-            setPasswordError(e.message.toString())
-        }
-    }
-
-    fun handleOnPasswordConfirmationChange(value: String) {
-        setPasswordConfirmation(value)
-        setPasswordConfirmationError("")
-        try {
-            userAuth.checkPasswordConfirmation(password, value)
-        } catch (e: Exception) {
-            setPasswordConfirmationError(e.message.toString())
-        }
-    }
-
     Container {
+
         Column {
+
             ScreenHeadline("Registrierung")
+
             Spacer(Modifier.size(80.dp))
+
             InputField(
                 email,
-                { handleOnEmailChange(it) },
+                { registerScreenViewModel.handleOnEmailChange(it, setEmail, setEmailError) },
                 "E-Mail Adresse",
                 "example@website.com",
                 isEmail = true,
                 errorText = emailError
             )
+
             Spacer(Modifier.size(20.dp))
+
             InputField(
                 userName,
                 { setUserName(it) },
                 "Nutzername",
                 "mustername"
             )
+
             Spacer(Modifier.size(20.dp))
+
             InputField(
                 password,
-                { handleOnPasswordChange(it) },
+                {
+                    registerScreenViewModel.handleOnPasswordChange(
+                        it,
+                        setPassword,
+                        setPasswordError
+                    )
+                },
                 "Passwort",
                 "Passwort",
                 "Das Passwort muss aus mind. 8 Zeichen bestehen",
                 isPassword = true,
                 errorText = passwordError
             )
+
             InputField(
                 passwordConfirmation,
-                { handleOnPasswordConfirmationChange(it) },
+                {
+                    registerScreenViewModel.handleOnPasswordConfirmationChange(
+                        it,
+                        password,
+                        setPasswordConfirmation,
+                        setPasswordConfirmationError
+                    )
+                },
+                "Passwort wiederholen",
                 "Passwort wiederholen",
                 isPassword = true,
                 errorText = passwordConfirmationError
             )
+
             Spacer(modifier = Modifier.size(20.dp))
+
             Button(
-                { onClickRegister(email, password) },
+                { registerScreenViewModel.onClickRegister(email, password) },
                 Modifier.fillMaxWidth(),
                 shape = CircleShape
             ) {
@@ -127,15 +119,23 @@ fun RegisterScreen(
                 Arrangement.Center,
                 Alignment.CenterHorizontally,
             ) {
+
                 Text(
                     "Bereits ein Konto?",
                     color = Color.Gray
                 )
 
-                TextButton(onClickLogin) {
+                TextButton({ registerScreenViewModel.onClickLogin() }) {
                     Text("Anmelden")
                 }
             }
         }
     }
+}
+
+@Preview(name = "LightMode", showBackground = true)
+@Preview(name = "DarkMode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun RegisterScreenPreview() {
+    RegisterScreen()
 }

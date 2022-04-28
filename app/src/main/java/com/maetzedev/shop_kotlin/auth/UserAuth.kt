@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
  * contains functions to interact with firebase
  */
 class UserAuth {
-    var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private fun String.isEmailValid(): Boolean {
         return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
@@ -24,7 +24,7 @@ class UserAuth {
 
     @Throws(PasswordTooShort::class)
     fun checkPassword(password: String) {
-        if (password.length < 9) {
+        if (password.length < 8) {
             throw PasswordTooShort()
         }
     }
@@ -49,7 +49,7 @@ class UserAuth {
     fun register(email: String, password: String) {
         checkRegisterRequirements(email, password, password)
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener() { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("Registration", "User successfully registered")
                 } else if (task.isCanceled) {

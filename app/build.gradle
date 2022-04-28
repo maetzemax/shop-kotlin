@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.devtools.ksp' version '1.6.0-1.0.2'
+    id 'com.google.devtools.ksp' version '1.6.20-1.0.5'
     id 'org.jetbrains.dokka'
     id 'com.google.gms.google-services'
 }
@@ -45,6 +45,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs = [
+                '-opt-in=androidx.compose.material.ExperimentalMaterialApi'
+        ]
     }
     buildFeatures {
         compose true
