@@ -22,16 +22,22 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel()) {
         bottomBar = { BottomBar() }
     ) {
         LazyColumn { // Will be moved to external file
+
             items(viewModel.productList) { product: Product ->
+
                 Column(Modifier.padding(20.dp)) {
+
                     Row(Modifier.fillMaxWidth()) {
+
                         Text(product.name)
 
                         Spacer(Modifier.weight(1f))
 
                         Text(product.price.toString() + "€")
                     }
+
                     Text(product.seller)
+
                     Text(product.description)
                 }
             }
