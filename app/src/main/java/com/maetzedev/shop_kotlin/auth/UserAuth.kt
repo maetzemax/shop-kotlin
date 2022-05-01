@@ -3,6 +3,9 @@ package com.maetzedev.shop_kotlin.auth
 import android.text.TextUtils
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.ktx.Firebase
 
 /**
  * UserAuth
@@ -36,8 +39,10 @@ class UserAuth {
         }
     }
 
-    @Throws(PasswordTooShort::class, PasswordsDontMatch::class)
+    @Throws(PasswordTooShort::class, PasswordsDontMatch::class, EmailNotValid::class)
     fun checkRegisterRequirements(email: String, password: String, passwordConfirmation: String) {
+        checkEmail(email)
+
         // Password and passwordConfirmation must match
         checkPasswordConfirmation(password, passwordConfirmation)
 
@@ -45,13 +50,29 @@ class UserAuth {
         checkPassword(password)
     }
 
+    // TODO: check if there is a better way to set the displayName directly in the register process
+    @Throws(UserNotLoggedIn::class)
+    fun updateDisplayName(displayName1: String) {
+        val user = Firebase.auth.currentUser ?: throw UserNotLoggedIn()
+
+        val profileUpdates = userProfileChangeRequest {
+            displayName = displayName1
+        }
+
+        user.updateProfile(profileUpdates)
+            .addOnCompleteListener { task ->
+                Log.d("ProfileUpdate", task.isSuccessful.toString())
+            }
+    }
+
     @Throws(RegisterFailed::class)
-    fun register(email: String, password: String) {
+    fun register(email: String, password: String, displayName: String) {
         checkRegisterRequirements(email, password, password)
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("Registration", "User successfully registered")
+                    updateDisplayName(displayName)
                 } else if (task.isCanceled) {
                     throw RegisterFailed("Register failed: ${task.result}")
                 }

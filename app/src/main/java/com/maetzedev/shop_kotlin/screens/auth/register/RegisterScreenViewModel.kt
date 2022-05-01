@@ -54,7 +54,7 @@ class RegisterScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
         // TODO: send user to login screen
     }
 
-    fun onClickRegister(email: String, password: String) {
-        userAuth.register(email, password)
+    fun onClickRegister(email: String, password: String, displayName: String) {
+        userAuth.register(email, password, displayName)
     }
 }

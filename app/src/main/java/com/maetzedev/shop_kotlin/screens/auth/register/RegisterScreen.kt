@@ -32,7 +32,7 @@ fun RegisterScreen(
     )
 ) {
     val (email, setEmail) = remember { mutableStateOf("") }
-    val (userName, setUserName) = remember { mutableStateOf("") }
+    val (displayName, setDisplayName) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (passwordConfirmation, setPasswordConfirmation) = remember { mutableStateOf("") }
 
@@ -60,8 +60,8 @@ fun RegisterScreen(
             Spacer(Modifier.size(20.dp))
 
             InputField(
-                userName,
-                { setUserName(it) },
+                displayName,
+                { setDisplayName(it) },
                 "Nutzername",
                 "mustername"
             )
@@ -103,7 +103,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.size(20.dp))
 
             Button(
-                { registerScreenViewModel.onClickRegister(email, password) },
+                { registerScreenViewModel.onClickRegister(email, password, displayName) },
                 Modifier.fillMaxWidth(),
                 shape = CircleShape
             ) {
