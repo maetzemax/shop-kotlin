@@ -8,21 +8,26 @@ open class CustomException(message: String? = null, cause: Throwable? = null) :
 }
 
 class PasswordTooShort(
-    message: String = "Password is too short. ",
+    message: String = "Passwort ist zu kurz",
     cause: Throwable? = null
 ) : CustomException(message, cause)
 
 class PasswordsDontMatch(
-    message: String = "Passwords don't match",
+    message: String = "Passwörter stimmen nicht überein",
     cause: Throwable? = null,
 ) : CustomException(message, cause)
 
 class EmailNotValid(
-    message: String = "E-Mail not valid",
+    message: String = "E-Mail ist nicht gültig",
     cause: Throwable? = null,
 ) : CustomException(message, cause)
 
 class RegisterFailed(
-    message: String = "Registration failed",
+    message: String = "Registrierung ist fehlgeschlagen",
+    cause: Throwable? = null
+) : CustomException(message, cause)
+
+class UserNotLoggedIn(
+    message: String = "Nutzer ist nicht eingeloggt",
     cause: Throwable? = null
 ) : CustomException(message, cause)
