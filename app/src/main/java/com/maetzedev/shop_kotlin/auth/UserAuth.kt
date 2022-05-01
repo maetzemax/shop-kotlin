@@ -52,11 +52,11 @@ class UserAuth {
 
     // TODO: check if there is a better way to set the displayName directly in the register process
     @Throws(UserNotLoggedIn::class)
-    fun updateDisplayName(displayName1: String) {
+    fun updateDisplayName(newDisplayName: String) {
         val user = Firebase.auth.currentUser ?: throw UserNotLoggedIn()
 
         val profileUpdates = userProfileChangeRequest {
-            displayName = displayName1
+            displayName = newDisplayName
         }
 
         user.updateProfile(profileUpdates)
