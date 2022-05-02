@@ -100,7 +100,7 @@ fun RegisterScreen(
                 errorText = passwordConfirmationError
             )
 
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(Modifier.size(20.dp))
 
             Button(
                 { registerScreenViewModel.onClickRegister(email, password, displayName) },
