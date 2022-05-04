@@ -2,8 +2,6 @@ package com.maetzedev.shop_kotlin.screens.auth.login
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -12,20 +10,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.maetzedev.shop_kotlin.uicomponents.compose.Container
-import com.maetzedev.shop_kotlin.uicomponents.compose.InputField
-import com.maetzedev.shop_kotlin.uicomponents.compose.ScreenHeadline
+import com.maetzedev.shop_kotlin.uicomponents.compose.*
+import com.maetzedev.shop_kotlin.uicomponents.compose.buttons.PrimaryButton
+import com.maetzedev.shop_kotlin.uicomponents.compose.buttons.PrimaryTextButton
+import com.maetzedev.shop_kotlin.uicomponents.compose.texts.ErrorText
+import com.maetzedev.shop_kotlin.uicomponents.compose.texts.GrayText
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * LoginScreen
+ * params are optional because otherwise the previews don't work
+ * @param loginScreenViewModel LoginScreenViewModel - optional
+ * @param navigator DestinationsNavigator - optional
+ */
+@Destination(route = "login")
 @Composable
-fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = LoginScreenViewModel()) {
+fun LoginScreen(
+    loginScreenViewModel: LoginScreenViewModel? = LoginScreenViewModel(),
+    navigator: DestinationsNavigator?
+) {
 
     val (email, setEmail) = remember { mutableStateOf("") }
     val (emailError, setEmailError) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
     val (passwordError, setPasswordError) = remember { mutableStateOf("") }
+    val (generalError, setGeneralError) = remember { mutableStateOf("") }
 
     Container {
 
@@ -37,7 +49,7 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = LoginScreenViewMode
 
             InputField(
                 email,
-                { loginScreenViewModel.handleOnEmailChange(email, setEmail, setEmailError) },
+                { loginScreenViewModel?.handleOnEmailChange(it, setEmail, setEmailError) },
                 "E-Mail Adresse",
                 "example@website.com",
                 isEmail = true,
@@ -48,13 +60,7 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = LoginScreenViewMode
 
             InputField(
                 password,
-                {
-                    loginScreenViewModel.handleOnPasswordChange(
-                        password,
-                        setPassword,
-                        setPasswordError
-                    )
-                },
+                { loginScreenViewModel?.handleOnPasswordChange(it, setPassword, setPasswordError) },
                 "Passwort",
                 "Passwort",
                 isPassword = true,
@@ -63,18 +69,24 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = LoginScreenViewMode
 
             Spacer(Modifier.size(20.dp))
 
-            Button(
-                { loginScreenViewModel.onClickLogin(email, password) },
-                Modifier.fillMaxWidth(),
-                shape = CircleShape
-            ) {
+            ErrorText(generalError)
+
+            PrimaryButton({
                 Text("Anmelden")
+            }) {
+                if (navigator != null) {
+                    loginScreenViewModel?.onClickLogin(email, password, setGeneralError, navigator)
+                }
             }
 
             Spacer(Modifier.size(20.dp))
 
             TextButton(
-                { loginScreenViewModel.onClickPasswordReset() },
+                {
+                    if (navigator != null) {
+                        loginScreenViewModel?.onClickPasswordReset(navigator)
+                    }
+                },
                 Modifier.fillMaxWidth()
             ) {
                 Text("Passwort vergessen?")
@@ -91,22 +103,30 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = LoginScreenViewMode
                 Alignment.CenterHorizontally,
             ) {
 
-                Text(
-                    "Noch kein Konto?",
-                    color = Color.Gray
-                )
+                GrayText("Noch kein Konto?")
 
-                TextButton({ loginScreenViewModel.onClickRegister() }) {
+                PrimaryTextButton({
                     Text("Registrieren")
+                }) {
+                    if (navigator != null) {
+                        loginScreenViewModel?.onClickRegister(navigator)
+                    }
                 }
             }
         }
     }
 }
 
-@Preview(showSystemUi = true)
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    name = "LightMode",
+    showSystemUi = true
+)
+@Preview(
+    name = "DarkMode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showSystemUi = true
+)
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen()
+    LoginScreen(null, null)
 }

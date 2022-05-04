@@ -2,34 +2,37 @@ package com.maetzedev.shop_kotlin.screens.auth.register
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.auth.UserAuth
-import com.maetzedev.shop_kotlin.uicomponents.compose.Container
-import com.maetzedev.shop_kotlin.uicomponents.compose.InputField
-import com.maetzedev.shop_kotlin.uicomponents.compose.ScreenHeadline
+import com.maetzedev.shop_kotlin.uicomponents.compose.*
+import com.maetzedev.shop_kotlin.uicomponents.compose.buttons.PrimaryButton
+import com.maetzedev.shop_kotlin.uicomponents.compose.buttons.PrimaryTextButton
+import com.maetzedev.shop_kotlin.uicomponents.compose.texts.ErrorText
+import com.maetzedev.shop_kotlin.uicomponents.compose.texts.GrayText
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
  * RegisterScreen
- * contains the register screen and its ui logic
- * @param registerScreenViewModel RegisterScreenViewModel
+ * params are optional because otherwise the previews don't work
+ * @param registerScreenViewModel RegisterScreenViewModel - optional
+ * @param navigator DestinationsNavigator - optional
  */
+@Destination(route = "register")
 @Composable
 fun RegisterScreen(
-    registerScreenViewModel: RegisterScreenViewModel = RegisterScreenViewModel(
+    registerScreenViewModel: RegisterScreenViewModel? = RegisterScreenViewModel(
         UserAuth()
-    )
+    ),
+    navigator: DestinationsNavigator?
 ) {
     val (email, setEmail) = remember { mutableStateOf("") }
     val (displayName, setDisplayName) = remember { mutableStateOf("") }
@@ -39,6 +42,7 @@ fun RegisterScreen(
     val (emailError, setEmailError) = remember { mutableStateOf("") }
     val (passwordError, setPasswordError) = remember { mutableStateOf("") }
     val (passwordConfirmationError, setPasswordConfirmationError) = remember { mutableStateOf("") }
+    val (generalError, setGeneralError) = remember { mutableStateOf("") }
 
     Container {
 
@@ -50,7 +54,7 @@ fun RegisterScreen(
 
             InputField(
                 email,
-                { registerScreenViewModel.handleOnEmailChange(it, setEmail, setEmailError) },
+                { registerScreenViewModel?.handleOnEmailChange(it, setEmail, setEmailError) },
                 "E-Mail Adresse",
                 "example@website.com",
                 isEmail = true,
@@ -71,7 +75,7 @@ fun RegisterScreen(
             InputField(
                 password,
                 {
-                    registerScreenViewModel.handleOnPasswordChange(
+                    registerScreenViewModel?.handleOnPasswordChange(
                         it,
                         setPassword,
                         setPasswordError
@@ -87,7 +91,7 @@ fun RegisterScreen(
             InputField(
                 passwordConfirmation,
                 {
-                    registerScreenViewModel.handleOnPasswordConfirmationChange(
+                    registerScreenViewModel?.handleOnPasswordConfirmationChange(
                         it,
                         password,
                         setPasswordConfirmation,
@@ -102,12 +106,14 @@ fun RegisterScreen(
 
             Spacer(Modifier.size(20.dp))
 
-            Button(
-                { registerScreenViewModel.onClickRegister(email, password, displayName) },
-                Modifier.fillMaxWidth(),
-                shape = CircleShape
-            ) {
+            ErrorText(generalError)
+
+            PrimaryButton({
                 Text("Registrieren")
+            }) {
+                if (navigator != null) {
+                    registerScreenViewModel?.onClickRegister(email, password, displayName, setGeneralError, navigator)
+                }
             }
 
             Divider()
@@ -120,13 +126,15 @@ fun RegisterScreen(
                 Alignment.CenterHorizontally,
             ) {
 
-                Text(
-                    "Bereits ein Konto?",
-                    color = Color.Gray
-                )
 
-                TextButton({ registerScreenViewModel.onClickLogin() }) {
+                GrayText("Bereits ein Konto?")
+
+                PrimaryTextButton({
                     Text("Anmelden")
+                }) {
+                    if (navigator != null) {
+                        registerScreenViewModel?.onClickLogin(navigator)
+                    }
                 }
             }
         }
@@ -137,5 +145,5 @@ fun RegisterScreen(
 @Preview(name = "DarkMode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen()
+    RegisterScreen(null, null)
 }
