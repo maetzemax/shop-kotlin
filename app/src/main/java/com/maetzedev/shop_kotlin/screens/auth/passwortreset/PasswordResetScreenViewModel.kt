@@ -3,7 +3,11 @@ package com.maetzedev.shop_kotlin.screens.auth.passwortreset
 import com.maetzedev.shop_kotlin.auth.UserAuth
 import java.lang.Exception
 
-class PasswortResetScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
+/**
+ * PasswordResetScreenViewModel
+ * keeps all the ui logic used in the RegisterScreen
+ */
+class PasswordResetScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
     fun onClickPasswordReset(email: String) {
         userAuth.passwordReset(email)
     }

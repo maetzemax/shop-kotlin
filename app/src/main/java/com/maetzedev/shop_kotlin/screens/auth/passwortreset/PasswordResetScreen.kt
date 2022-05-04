@@ -17,9 +17,14 @@ import com.maetzedev.shop_kotlin.uicomponents.compose.buttons.PrimaryButton
 import com.maetzedev.shop_kotlin.uicomponents.compose.texts.ErrorText
 import com.ramcosta.composedestinations.annotation.Destination
 
+/**
+ * PasswordResetScreen
+ * params are optional because otherwise previews don't work
+ * @param passwordResetScreenViewModel PasswortResetScreenViewModel
+ */
 @Destination(route = "passwordreset")
 @Composable
-fun PasswordResetScreen(passwortResetScreenViewModel: PasswortResetScreenViewModel? = PasswortResetScreenViewModel()) {
+fun PasswordResetScreen(passwordResetScreenViewModel: PasswordResetScreenViewModel? = PasswordResetScreenViewModel()) {
     val (email, setEmail) = remember { mutableStateOf("") }
     val (emailError, setEmailError) = remember { mutableStateOf("") }
     val (generalError) = remember { mutableStateOf("") }
@@ -31,7 +36,7 @@ fun PasswordResetScreen(passwortResetScreenViewModel: PasswortResetScreenViewMod
 
         InputField(
             email,
-            { passwortResetScreenViewModel?.handleOnEmailChange(it, setEmail, setEmailError)},
+            { passwordResetScreenViewModel?.handleOnEmailChange(it, setEmail, setEmailError)},
             "E-Mail Adresse",
             "example@website.com",
             isEmail = true,
@@ -42,7 +47,7 @@ fun PasswordResetScreen(passwortResetScreenViewModel: PasswortResetScreenViewMod
 
         PrimaryButton({
             Text("Absenden")
-        }) { passwortResetScreenViewModel?.onClickPasswordReset(email) }
+        }) { passwordResetScreenViewModel?.onClickPasswordReset(email) }
     }
 }
 
