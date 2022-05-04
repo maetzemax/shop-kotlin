@@ -67,4 +67,14 @@ class UserAuth : UserCheck() {
 
         // TODO: send user to home screen
     }
+
+    fun passwordReset(email: String) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Passwortreset", "Email sent")
+                }
+                Log.d("Passwortreset", task.exception.toString())
+            }
+    }
 }

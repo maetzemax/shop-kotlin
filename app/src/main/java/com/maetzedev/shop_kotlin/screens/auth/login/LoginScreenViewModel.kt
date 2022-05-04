@@ -57,6 +57,6 @@ class LoginScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
     }
 
     fun onClickPasswordReset(navigator: DestinationsNavigator) {
-        // TODO: send user to password reset screen
+        navigator.navigate("passwordreset")
     }
 }
