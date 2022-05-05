@@ -3,8 +3,10 @@ package com.maetzedev.shop_kotlin.auth
 import android.text.TextUtils
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.rpc.context.AttributeContext
 
