@@ -53,7 +53,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
     ) {
         Box(contentAlignment = BottomStart) {
             Image(
-                painter = painterResource(R.drawable.placeholder_car),
+                painter = painterResource(R.drawable.car_placeholder),
                 contentDescription = "Car",
                 contentScale = FillWidth,
                 modifier = Modifier
