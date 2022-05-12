@@ -1,15 +1,17 @@
 package com.maetzedev.shop_kotlin.screens.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.models.status.Status
-import com.maetzedev.shop_kotlin.screens.product.ProductList
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.component.TopBar
@@ -37,7 +39,9 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator
             topBar = { TopBar("Home") },
             bottomBar = { BottomBar() },
         ) {
-            ProductList(products = products, paddingValues = it, navigator = navigator)
+            Column(Modifier.padding(it)) {
+                // Enter Product List
+            }
         }
     }
 }
@@ -55,7 +59,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator
 )
 @Composable
 fun HomeScreenPreview() {
-    ShopkotlinTheme() {
+    ShopkotlinTheme {
         HomeScreen(navigator = EmptyDestinationsNavigator)
     }
 }

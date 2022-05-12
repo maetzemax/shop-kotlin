@@ -1,11 +1,12 @@
 package com.maetzedev.shop_kotlin.uicomponents.component
 
-import android.content.res.Configuration
-import android.content.res.Configuration.UI_MODE_NIGHT_MASK
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
@@ -87,6 +88,8 @@ fun BottomBar_PreviewLight() {
             BottomBar()
         }
     ) {
-        // Empty because only the bottomBar is interesting.
+        Column(Modifier.padding(it)) {
+            // Empty because only the bottomBar is interesting.
+        }
     }
 }

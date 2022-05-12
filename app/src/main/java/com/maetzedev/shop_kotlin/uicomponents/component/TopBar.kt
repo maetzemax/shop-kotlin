@@ -69,6 +69,8 @@ fun TopBar_Preview() {
             TopBar("Title")
         }
     ) {
-        // Empty because only the topBar is interesting.
+        Column(Modifier.padding(it)) {
+            // Empty because only the topBar is interesting.
+        }
     }
 }
