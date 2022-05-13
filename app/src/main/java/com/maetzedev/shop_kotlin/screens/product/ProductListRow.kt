@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
+import com.maetzedev.shop_kotlin.screens.product.destinations.ProductOverViewDestination
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -46,7 +47,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
         elevation = 4.dp,
         modifier = Modifier
             .padding(horizontal = 10.dp, vertical = 20.dp)
-            .clickable { /*navigator.navigate(ProductOverViewDestination(product = product)) */ }
+            .clickable { navigator.navigate(ProductOverViewDestination(product = product)) }
             .onGloballyPositioned {
                 sizeImage = it.size
             }

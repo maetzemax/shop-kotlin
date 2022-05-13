@@ -3,6 +3,8 @@ package com.maetzedev.shop_kotlin.screens.product
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -16,6 +18,8 @@ import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
+import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
+import com.maetzedev.shop_kotlin.uicomponents.component.TopBar
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
@@ -23,9 +27,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 fun ProductOverView(
     product: Product
 ) {
-    Scaffold {
+    Scaffold(
+        topBar = { TopBar(title = product.name) },
+        bottomBar = { BottomBar() }
+    ) {
         Column(
-            Modifier.padding(it)
+            Modifier.padding(horizontal = 20.dp)
         ) {
             Image(
                 painterResource(id = R.drawable.car_placeholder),
@@ -35,26 +42,42 @@ fun ProductOverView(
                     .fillMaxWidth()
             )
 
-            Row {
-                Text(
-                    product.name,
-                    style = MaterialTheme.typography.h4
-                )
+            LazyColumn(
+                modifier = Modifier.padding(it),
+                content = {
+                item {
+                    Row {
+                        Text(
+                            product.name,
+                            style = MaterialTheme.typography.h4
+                        )
 
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 10.dp)
-                )
+                        Spacer(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 10.dp)
+                        )
 
-                Text(
-                    product.price,
-                    style = MaterialTheme.typography.h4
-                )
+                        Text(
+                            product.price,
+                            style = MaterialTheme.typography.h4
+                        )
+                    }
+
+                    Text("Verkäufer: ${product.seller}")
+
+                    Spacer(Modifier.height(20.dp))
+
+                    Text(product.description)
+                    
+                    Spacer(Modifier.height(50.dp))
+                    
+                    Button(onClick = { /*TODO: Add to Shopping Cart*/ }) {
+                        Text(text = "Zum Warenkorb hinzufügen")
+                    }
+                }
             }
-
-            Text(product.description)
-
+            )
         }
     }
 }
