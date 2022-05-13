@@ -47,7 +47,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
             elevation = 4.dp,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = it.calculateBottomPadding())
-                .clickable { /*navigator.navigate(ProductOverViewDestination(product = product)) */ }
+                .clickable { navigator.navigate(ProductOverViewDestination(product = product)) }
                 .onGloballyPositioned { layout ->
                     sizeImage = layout.size
                 }
@@ -60,7 +60,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                     .background(Color.White)
             ) {
                 Image(
-                    painter = painterResource(R.drawable.placeholder_car),
+                    painter = painterResource(R.drawable.car_placeholder),
                     contentDescription = "Car",
                     contentScale = FillWidth,
                     modifier = Modifier

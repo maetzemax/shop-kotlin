@@ -13,7 +13,7 @@ import com.maetzedev.shop_kotlin.models.product.Product
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination(start = true) // only for building the project
+@Destination
 @Composable
 fun ProductList(products: List<Product?>, paddingValues: PaddingValues, navigator: DestinationsNavigator) {
     LazyColumn(
