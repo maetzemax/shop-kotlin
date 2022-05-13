@@ -2,13 +2,12 @@ package com.maetzedev.shop_kotlin.screens.product
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomStart
@@ -41,52 +40,61 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
     val background = Color.Black
     val fontColor = Color.White
 
-    Card(
-        shape = RectangleShape,
-        elevation = 4.dp,
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 20.dp)
-            .clickable { /*navigator.navigate(ProductOverViewDestination(product = product)) */ }
-            .onGloballyPositioned {
-                sizeImage = it.size
-            }
-    ) {
-        Box(contentAlignment = BottomStart) {
-            Image(
-                painter = painterResource(R.drawable.placeholder_car),
-                contentDescription = "Car",
-                contentScale = FillWidth,
+    Scaffold {
+        Card(
+            shape = RectangleShape,
+            elevation = 4.dp,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = it.calculateBottomPadding())
+                .clickable { /*navigator.navigate(ProductOverViewDestination(product = product)) */ }
+                .onGloballyPositioned { layout ->
+                    sizeImage = layout.size
+                }
+        ) {
+            Box(
+                contentAlignment = BottomStart,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .drawWithCache {
-                        val gradient = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.White,
-                                background
-                            ),
-                            startY = sizeImage.height.toFloat() / 3,  // 1/3
-                            endY = sizeImage.height.toFloat()
-                        )
-                        onDrawWithContent {
-                            drawContent()
-                            drawRect(gradient, blendMode = BlendMode.Multiply)
-                        }
-                    }
-            )
-
-            Column(
-                modifier = Modifier.padding(10.dp)
+                    .fillMaxWidth()
+                    .requiredHeight(300.dp)
+                    .background(Color.White)
             ) {
-                Text(
-                    product.name,
-                    style = MaterialTheme.typography.h4,
-                    color = fontColor
+                Image(
+                    painter = painterResource(R.drawable.placeholder_car),
+                    contentDescription = "Car",
+                    contentScale = FillWidth,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .drawWithCache {
+                            val gradient = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.White,
+                                    background
+                                ),
+                                startY = sizeImage.height.toFloat() / 3,  // 1/3
+                                endY = sizeImage.height.toFloat()
+                            )
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(gradient, blendMode = BlendMode.Multiply)
+                            }
+                        }
+
                 )
-                Text(
-                    product.price,
-                    style = MaterialTheme.typography.h5,
-                    color = fontColor
-                )
+
+                Column(
+                    modifier = Modifier.padding(10.dp)
+                ) {
+                    Text(
+                        product.name,
+                        style = MaterialTheme.typography.h4,
+                        color = fontColor
+                    )
+                    Text(
+                        product.price,
+                        style = MaterialTheme.typography.h5,
+                        color = fontColor
+                    )
+                }
             }
         }
     }
