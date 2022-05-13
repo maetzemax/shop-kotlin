@@ -6,6 +6,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
@@ -63,7 +64,7 @@ class UserAuth : UserCheck() {
         val user = auth.currentUser
 
         if (user == null) {
-            navigator.navigate("login")
+            navigator.navigate(LoginScreenDestination)
         } else {
             navigator.navigate(HomeScreenDestination)
         }

@@ -30,7 +30,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
  * @param registerScreenViewModel RegisterScreenViewModel - optional
  * @param navigator DestinationsNavigator - optional
  */
-@Destination(route = "register")
+@Destination()
 @Composable
 fun RegisterScreen(
     registerScreenViewModel: RegisterScreenViewModel? = RegisterScreenViewModel(

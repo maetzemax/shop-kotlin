@@ -1,6 +1,8 @@
 package com.maetzedev.shop_kotlin.screens.auth.register
 
 import com.maetzedev.shop_kotlin.auth.UserAuth
+import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.lang.Exception
 
@@ -56,13 +58,13 @@ class RegisterScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
     }
 
     fun onClickLogin(navigator: DestinationsNavigator) {
-        navigator.navigate("login")
+        navigator.navigate(LoginScreenDestination)
     }
 
     fun onClickRegister(email: String, password: String, displayName: String, setGeneralError: (String) -> Unit, navigator: DestinationsNavigator) {
         try {
             userAuth.register(email, password, displayName) {
-                // TODO: send user to home route
+                navigator.navigate(HomeScreenDestination)
             }
         } catch (e: Exception) {
             setGeneralError(e.message.toString())

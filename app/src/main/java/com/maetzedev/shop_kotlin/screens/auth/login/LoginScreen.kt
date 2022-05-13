@@ -26,7 +26,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * @param loginScreenViewModel LoginScreenViewModel - optional
  * @param navigator DestinationsNavigator - optional
  */
-@Destination(route = "login")
+@Destination()
 @Composable
 fun LoginScreen(
     loginScreenViewModel: LoginScreenViewModel? = LoginScreenViewModel(),

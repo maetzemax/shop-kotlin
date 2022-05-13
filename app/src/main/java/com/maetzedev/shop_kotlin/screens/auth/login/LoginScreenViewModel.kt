@@ -1,6 +1,8 @@
 package com.maetzedev.shop_kotlin.screens.auth.login
 
 import com.maetzedev.shop_kotlin.auth.UserAuth
+import com.maetzedev.shop_kotlin.screens.destinations.PasswordResetScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.lang.Exception
 
@@ -53,10 +55,10 @@ class LoginScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
     }
 
     fun onClickRegister(navigator: DestinationsNavigator) {
-        navigator.navigate("register")
+        navigator.navigate(RegisterScreenDestination)
     }
 
     fun onClickPasswordReset(navigator: DestinationsNavigator) {
-        navigator.navigate("passwordreset")
+        navigator.navigate(PasswordResetScreenDestination)
     }
 }
