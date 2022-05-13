@@ -10,8 +10,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.models.status.Status
+import com.maetzedev.shop_kotlin.screens.product.ProductList
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.component.TopBar
@@ -39,8 +41,15 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator
             topBar = { TopBar("Home") },
             bottomBar = { BottomBar() },
         ) {
-            Column(Modifier.padding(it)) {
-                // Enter Product List
+            Column(
+                Modifier
+                    .padding(it)
+                    .padding(vertical = 20.dp)
+            ) {
+                ProductList(
+                    products = products,
+                    navigator = navigator
+                )
             }
         }
     }

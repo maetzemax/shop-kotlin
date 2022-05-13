@@ -59,7 +59,7 @@ fun ProductOverView(
                         )
 
                         Text(
-                            product.price,
+                            "${product.price}",
                             style = MaterialTheme.typography.h4
                         )
                     }
@@ -98,8 +98,9 @@ fun ProductOverView_Preview() {
     ShopkotlinTheme {
         ProductOverView(
             product = Product(
-                id = "1",
-                price = "100.99",
+                docId = "1",
+                id = 1,
+                price = 100.99f,
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.google.firebase.FirebaseApp
-import com.maetzedev.shop_kotlin.screens.home.NavGraphs
+import com.maetzedev.shop_kotlin.screens.NavGraphs
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 

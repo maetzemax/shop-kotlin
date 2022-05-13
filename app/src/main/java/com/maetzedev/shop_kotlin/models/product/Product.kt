@@ -11,19 +11,20 @@ import com.ramcosta.composedestinations.navargs.NavTypeSerializer
     Creates a product based on id, name, description, price and seller. (/D010/)
 */
 data class Product(
-    var id: String,
+    var docId: String,
+    var id: Int,
     var created: Timestamp? = null,
     var name: String,
     var description: String,
-    var price: String,
+    var price: Float,
     var seller: String
     ) {
-    constructor() : this(id = "0", price = "0", description = "", name = "", seller = "", created = Timestamp.now()) {}
+    constructor() : this(docId = "0", id = 0, price = 0.00f, description = "", name = "", seller = "", created = Timestamp.now()) {}
 
     companion object {
         fun toObject(doc: DocumentSnapshot): Product? {
             val item = doc.toObject<Product>()
-            item?.id = doc.id
+            item?.docId = doc.id
             return item
         }
     }
