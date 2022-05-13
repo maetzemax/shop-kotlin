@@ -1,6 +1,7 @@
 package com.maetzedev.shop_kotlin.auth
 
 import java.lang.Exception
+import kotlin.jvm.Throws
 
 open class CustomException(message: String? = null, cause: Throwable? = null) :
     Exception(message, cause) {
@@ -29,5 +30,10 @@ class RegisterFailed(
 
 class UserNotLoggedIn(
     message: String = "Nutzer ist nicht eingeloggt",
+    cause: Throwable? = null
+) : CustomException(message, cause)
+
+class LoginFailed (
+    message: String = "Login ist fehlgeschlagen",
     cause: Throwable? = null
 ) : CustomException(message, cause)
