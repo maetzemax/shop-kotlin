@@ -3,20 +3,19 @@ package com.maetzedev.shop_kotlin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Surface
-import com.maetzedev.shop_kotlin.screens.auth.register.RegisterScreen
+import com.google.firebase.FirebaseApp
+import com.maetzedev.shop_kotlin.screens.home.NavGraphs
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
 
         setContent {
             ShopkotlinTheme {
-                Surface {
-                    // TODO: Implement Start Screen
-                    RegisterScreen()
-                }
+                    DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
     }
