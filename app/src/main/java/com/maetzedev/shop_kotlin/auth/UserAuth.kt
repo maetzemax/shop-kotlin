@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
+import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
@@ -63,9 +64,9 @@ class UserAuth : UserCheck() {
 
         if (user == null) {
             navigator.navigate("login")
+        } else {
+            navigator.navigate(HomeScreenDestination)
         }
-
-        // TODO: send user to home screen
     }
 
     fun passwordReset(email: String) {

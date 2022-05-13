@@ -1,7 +1,5 @@
 package com.maetzedev.shop_kotlin.screens.product
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
@@ -18,23 +16,13 @@ fun ProductList(products: List<Product?>, navigator: DestinationsNavigator) {
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        if (products.isEmpty()) {
-            items(products) { product ->
-                ProductListRow(
-                    product = product!!,
-                    navigator = navigator
-                )
+        items(products) { product ->
+            if (product != null) { // If there is a product create list
+                ProductListRow(product = product, navigator = navigator)
+            } else { // Display error message
+                // TODO: Show proper error message
+                Text("Keine Ergebnisse")
             }
-        } else { // Display error message
-            item {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text("Keine Ergebnisse gefunden.")
-                }
-            }
-
         }
     }
 }

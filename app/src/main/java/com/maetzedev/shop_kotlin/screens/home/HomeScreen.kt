@@ -22,7 +22,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator: DestinationsNavigator) {

@@ -3,6 +3,7 @@ package com.maetzedev.shop_kotlin.screens.startup
 import androidx.compose.runtime.Composable
 import com.maetzedev.shop_kotlin.auth.UserAuth
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
@@ -10,7 +11,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * @param startupScreenViewModel StartupScreenViewModel
  * @param navigator DestinationsNavigator
  */
-@Destination(start = true)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun StartupScreen(
     startupScreenViewModel: StartupScreenViewModel = StartupScreenViewModel(UserAuth()),
