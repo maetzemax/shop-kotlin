@@ -16,10 +16,10 @@ data class Product(
     var created: Timestamp? = null,
     var name: String,
     var description: String,
-    var price: Float,
+    var price: Double,
     var seller: String
     ) {
-    constructor() : this(docId = "0", id = 0, price = 0.00f, description = "", name = "", seller = "", created = Timestamp.now()) {}
+    constructor() : this(docId = "0", id = 0, price = 0.00, description = "", name = "", seller = "", created = Timestamp.now()) {}
 
     companion object {
         fun toObject(doc: DocumentSnapshot): Product? {
@@ -31,7 +31,7 @@ data class Product(
 }
 
 
-
+/*Provide the navigation argument serialization for the Product type.*/
 @NavTypeSerializer
 class ProductTypeSerializer: DestinationsNavTypeSerializer<Product> {
 

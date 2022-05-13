@@ -17,9 +17,10 @@ fun ProductList(products: List<Product?>, navigator: DestinationsNavigator) {
     )
     {
         items(products) { product ->
-            if (product != null) {
+            if (product != null) { // If there is a product create list
                 ProductListRow(product = product, navigator = navigator)
-            } else {
+            } else { // Display error message
+                // TODO: Show proper error message
                 Text("Keine Ergebnisse")
             }
         }

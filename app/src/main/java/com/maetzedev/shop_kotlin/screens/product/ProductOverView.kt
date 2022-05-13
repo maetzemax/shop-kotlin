@@ -20,6 +20,7 @@ import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.component.TopBar
+import com.maetzedev.shop_kotlin.utils.Formatters
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
@@ -27,6 +28,9 @@ import com.ramcosta.composedestinations.annotation.Destination
 fun ProductOverView(
     product: Product
 ) {
+
+    val currencyFormatter = Formatters.CurrencyFormatter()
+
     Scaffold(
         topBar = { TopBar(title = product.name) },
         bottomBar = { BottomBar() }
@@ -59,7 +63,7 @@ fun ProductOverView(
                         )
 
                         Text(
-                            "${product.price}",
+                            currencyFormatter.formatFloatToString(product.price),
                             style = MaterialTheme.typography.h4
                         )
                     }
@@ -100,7 +104,7 @@ fun ProductOverView_Preview() {
             product = Product(
                 docId = "1",
                 id = 1,
-                price = 100.99f,
+                price = 100.99,
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",

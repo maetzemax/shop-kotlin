@@ -30,26 +30,29 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator
     val listState by viewModel.currentListState.collectAsState(initial = Resource.loading(null))
     val products = listState.data ?: emptyList()
 
-    if (listState.status == Status.ERROR) {
-        Text("Error: ${listState.message}")
-    }
-    else if (listState.status == Status.LOADING) {
-        Text("Loading ....")
-    }
-    else {
-        Scaffold(
-            topBar = { TopBar("Home") },
-            bottomBar = { BottomBar() },
-        ) {
-            Column(
-                Modifier
-                    .padding(it)
-                    .padding(vertical = 20.dp)
-            ) {
-                ProductList(
-                    products = products,
-                    navigator = navigator
-                )
+    when (listState.status) {
+        Status.ERROR -> { // In case of an error:
+            Text("Error: ${listState.message}")
+        }
+        Status.LOADING -> { // Showed while the view is loading
+            Text("Loading ....") // TODO: Replace with proper animation.
+        }
+        else -> { // Show all results fetched from firebase
+            Scaffold(
+                topBar = { TopBar("Home") },
+                bottomBar = { BottomBar() },
+
+                ) {
+                Column(
+                    Modifier
+                        .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
+                        .padding(horizontal = 10.dp)
+                ) {
+                    ProductList(
+                        products = products,
+                        navigator = navigator
+                    )
+                }
             }
         }
     }

@@ -3,14 +3,11 @@ package com.maetzedev.shop_kotlin.repositories
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.models.status.Resource
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -23,9 +20,15 @@ class ProductsRepo {
         FirebaseApp.initializeApp(FirebaseApp.getInstance().applicationContext)
     }
 
+    /**
+     * This function fetch all the data from firestore based on the path "products".
+     * Results and state of progress are stores in Resource.
+     * */
     fun fetchProducts() = callbackFlow {
         val collection = db.collection("products")
 
+        // Sorter which show the newest products first
+        // TODO: Allow different sort algorithms (newest, lowest price...)
         val snapshotListener = collection.orderBy("created", Query.Direction.DESCENDING).addSnapshotListener { value, error ->
 
             val response = if (error == null && value != null) {

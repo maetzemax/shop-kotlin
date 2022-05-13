@@ -26,6 +26,7 @@ import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.screens.destinations.ProductOverViewDestination
+import com.maetzedev.shop_kotlin.utils.Formatters
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
@@ -35,6 +36,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
 
     var sizeImage by remember { mutableStateOf(IntSize.Zero) }
+    val currencyFormatter = Formatters.CurrencyFormatter()
 
     val background = Color.Black
     val fontColor = Color.White
@@ -87,7 +89,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                     color = fontColor
                 )
                 Text(
-                    "${product.price}",
+                    currencyFormatter.formatFloatToString(product.price),
                     style = MaterialTheme.typography.h5,
                     color = fontColor
                 )
@@ -114,7 +116,7 @@ fun ProductList_Preview() {
             Product(
                 docId = "1",
                 id = 1,
-                price = 100.99f,
+                price = 100.99,
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",
@@ -123,7 +125,7 @@ fun ProductList_Preview() {
             Product(
                 docId = "2",
                 id = 2,
-                price = 100.99f,
+                price = 100.99,
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",
@@ -132,7 +134,7 @@ fun ProductList_Preview() {
             Product(
                 docId = "3",
                 id = 3,
-                price = 100.99f,
+                price = 100.99,
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",
@@ -141,7 +143,7 @@ fun ProductList_Preview() {
             Product(
                 docId = "4",
                 id = 4,
-                price = 100.99f,
+                price = 100.99,
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",
