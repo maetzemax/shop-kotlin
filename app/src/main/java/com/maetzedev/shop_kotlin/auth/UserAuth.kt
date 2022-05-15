@@ -9,6 +9,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.rpc.context.AttributeContext
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.screens.destinations.LoginScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.StartupScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
@@ -91,5 +92,10 @@ class UserAuth : UserCheck() {
                 }
                 Log.d("Passwortreset", task.exception.toString())
             }
+    }
+
+    fun logout(navigator: DestinationsNavigator) {
+        auth.signOut()
+        navigator.navigate(StartupScreenDestination)
     }
 }
