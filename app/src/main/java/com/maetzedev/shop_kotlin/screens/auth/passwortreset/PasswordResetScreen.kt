@@ -54,6 +54,6 @@ fun PasswordResetScreen(passwordResetScreenViewModel: PasswordResetScreenViewMod
 @Preview(name = "Lightmode", showBackground = true)
 @Preview(name = "Darkmode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun PreviewPasswortResetScreen() {
+fun PreviewPasswordResetScreen() {
     PasswordResetScreen(null)
 }
