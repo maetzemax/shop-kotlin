@@ -1,10 +1,12 @@
 package com.maetzedev.shop_kotlin.auth
 
 import android.util.Log
+import androidx.compose.animation.core.exponentialDecay
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.rpc.context.AttributeContext
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
@@ -17,10 +19,10 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * contains functions to interact with firebase
  */
 class UserAuth : UserCheck() {
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     @Throws(UserNotLoggedIn::class)
-    fun updateDisplayName(newDisplayName: String) {
+    fun updateDisplayName(newDisplayName: String, onError: (Task<Void>) -> Unit) {
         val user = Firebase.auth.currentUser ?: throw UserNotLoggedIn()
 
         val profileUpdates = userProfileChangeRequest {
@@ -29,8 +31,38 @@ class UserAuth : UserCheck() {
 
         user.updateProfile(profileUpdates)
             .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    onError(task)
+                }
                 Log.d("ProfileUpdate", task.isSuccessful.toString())
             }
+    }
+
+    @Throws(UserNotLoggedIn::class)
+    fun updateEmail(
+        newEmail: String,
+        onError: (Task<Void>) -> Unit,
+    ) {
+        val user = auth.currentUser ?: throw UserNotLoggedIn()
+        checkEmail(newEmail)
+
+        user.updateEmail(newEmail).addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                onError(task)
+            }
+        }
+    }
+
+    @Throws(UserNotLoggedIn::class)
+    fun updatePassword(newPassword: String, onError: (Task<Void>) -> Unit) {
+        val user = auth.currentUser ?: throw UserNotLoggedIn()
+        checkPassword(newPassword)
+
+        user.updatePassword(newPassword).addOnCompleteListener{ task ->
+            if (!task.isSuccessful) {
+                onError(task)
+            }
+        }
     }
 
     @Throws(RegisterFailed::class, EmailAlreadyInUse::class)
@@ -47,7 +79,7 @@ class UserAuth : UserCheck() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("Registration", "User successfully registered")
-                    updateDisplayName(displayName)
+                    updateDisplayName(displayName) {}
                     onSuccess(task)
                 } else {
                     onError(task)
