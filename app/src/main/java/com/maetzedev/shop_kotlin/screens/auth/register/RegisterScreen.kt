@@ -2,8 +2,6 @@ package com.maetzedev.shop_kotlin.screens.auth.register
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -12,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.auth.UserAuth
@@ -20,6 +17,9 @@ import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.maetzedev.shop_kotlin.uicomponents.compose.Container
 import com.maetzedev.shop_kotlin.uicomponents.compose.InputField
 import com.maetzedev.shop_kotlin.uicomponents.compose.ScreenHeadline
+import com.maetzedev.shop_kotlin.uicomponents.compose.buttons.PrimaryButton
+import com.maetzedev.shop_kotlin.uicomponents.compose.texts.ErrorText
+import com.maetzedev.shop_kotlin.uicomponents.compose.texts.GrayText
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
@@ -30,7 +30,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
  * @param registerScreenViewModel RegisterScreenViewModel - optional
  * @param navigator DestinationsNavigator - optional
  */
-@Destination(route = "register")
+@Destination()
 @Composable
 fun RegisterScreen(
     registerScreenViewModel: RegisterScreenViewModel? = RegisterScreenViewModel(
@@ -93,6 +93,8 @@ fun RegisterScreen(
                     errorText = passwordError
                 )
 
+                Spacer(Modifier.size(20.dp))
+
                 InputField(
                     passwordConfirmation,
                     {
@@ -109,14 +111,14 @@ fun RegisterScreen(
                     errorText = passwordConfirmationError
                 )
 
-                Spacer(modifier = Modifier.size(20.dp))
+                Spacer(Modifier.size(20.dp))
 
-                Button(
-                    { registerScreenViewModel?.onClickRegister(email, password, displayName, setGeneralError, navigator = navigator) },
-                    Modifier.fillMaxWidth(),
-                    shape = CircleShape
-                ) {
+                ErrorText(generalError)
+
+                PrimaryButton({
                     Text("Registrieren")
+                }) {
+                    registerScreenViewModel?.onClickRegister(email, password, passwordConfirmation, displayName, setGeneralError, navigator)
                 }
 
                 Divider()
@@ -129,10 +131,7 @@ fun RegisterScreen(
                     Alignment.CenterHorizontally,
                 ) {
 
-                    Text(
-                        "Bereits ein Konto?",
-                        color = Color.Gray
-                    )
+                    GrayText("Bereits ein Konto?")
 
                     TextButton({ registerScreenViewModel?.onClickLogin(navigator) }) {
                         Text("Anmelden")

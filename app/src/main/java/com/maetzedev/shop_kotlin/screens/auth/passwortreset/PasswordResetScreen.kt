@@ -22,7 +22,7 @@ import com.ramcosta.composedestinations.annotation.Destination
  * params are optional because otherwise previews don't work
  * @param passwordResetScreenViewModel PasswortResetScreenViewModel
  */
-@Destination(route = "passwordreset")
+@Destination()
 @Composable
 fun PasswordResetScreen(passwordResetScreenViewModel: PasswordResetScreenViewModel? = PasswordResetScreenViewModel()) {
     val (email, setEmail) = remember { mutableStateOf("") }
@@ -54,6 +54,6 @@ fun PasswordResetScreen(passwordResetScreenViewModel: PasswordResetScreenViewMod
 @Preview(name = "Lightmode", showBackground = true)
 @Preview(name = "Darkmode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun PreviewPasswortResetScreen() {
+fun PreviewPasswordResetScreen() {
     PasswordResetScreen(null)
 }

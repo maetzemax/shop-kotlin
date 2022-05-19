@@ -1,7 +1,9 @@
 package com.maetzedev.shop_kotlin.uicomponents.compose.buttons
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 /**
  * PrimaryTextButton
@@ -11,7 +13,10 @@ import androidx.compose.runtime.Composable
  */
 @Composable
 fun PrimaryTextButton(children: @Composable () -> Unit, onClick: () -> Unit) {
-    TextButton(onClick) {
+    TextButton(
+        onClick,
+        Modifier.fillMaxWidth()
+    ) {
         children()
     }
 }

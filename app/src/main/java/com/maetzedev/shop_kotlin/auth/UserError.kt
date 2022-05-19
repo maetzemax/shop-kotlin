@@ -13,6 +13,11 @@ class PasswordTooShort(
     cause: Throwable? = null
 ) : CustomException(message, cause)
 
+class WeakPassword(
+    message: String = "Passwort ist zu schwach",
+    cause: Throwable? = null
+) : CustomException(message, cause)
+
 class PasswordsDontMatch(
     message: String = "Passwörter stimmen nicht überein",
     cause: Throwable? = null,
@@ -35,5 +40,15 @@ class UserNotLoggedIn(
 
 class LoginFailed (
     message: String = "Login ist fehlgeschlagen",
+    cause: Throwable? = null
+) : CustomException(message, cause)
+
+class EmailAlreadyInUse (
+    message: String = "Email wird bereits genutzt",
+    cause: Throwable? = null,
+) : CustomException(message, cause)
+
+class GeneralError(
+    message: String = "Es ist ein Fehler aufgetreten",
     cause: Throwable? = null
 ) : CustomException(message, cause)
