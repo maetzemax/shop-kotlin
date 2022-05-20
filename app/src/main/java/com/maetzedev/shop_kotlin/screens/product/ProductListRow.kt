@@ -6,9 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -40,6 +44,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
 
     val background = Color.Black
     val fontColor = Color.White
+    val favoriteColor = Color.Red
 
     Card(
         shape = RectangleShape,
@@ -88,11 +93,24 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                     style = MaterialTheme.typography.h4,
                     color = fontColor
                 )
-                Text(
-                    currencyFormatter.formatFloatToString(product.price),
-                    style = MaterialTheme.typography.h5,
-                    color = fontColor
-                )
+
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        currencyFormatter.formatFloatToString(product.price),
+                        style = MaterialTheme.typography.h5,
+                        color = fontColor
+                    )
+                    Icon(
+                        Icons.Rounded.Favorite,
+                        "Favorite",
+                        Modifier.clickable { /* TODO: add action*/ },
+                        favoriteColor
+                    )
+                }
             }
         }
     }
