@@ -50,10 +50,14 @@ fun Favorite(
                         .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
                         .padding(horizontal = 10.dp)
                 ) {
-                    ProductList(
-                        products = products,
-                        navigator = navigator
-                    )
+                    if (products.isEmpty()) {
+                        Text("Du hast keine gemerkten Produkte")
+                    } else {
+                        ProductList(
+                            products = products,
+                            navigator = navigator
+                        )
+                    }
                 }
             }
         }

@@ -51,11 +51,16 @@ data class Product(
 
                 val likedProducts: List<Int> = task.result.data?.get("likedProducts") as List<Int>
                 var mutableLikedProducts = likedProducts.toMutableList()
+                var isInside = false
 
+                likedProducts.forEach {
+                   if (it - likedProduct == 0)  {
+                       isInside = true
+                       mutableLikedProducts = mutableLikedProducts.filter { it -> it != likedProduct }.toMutableList()
+                   }
+                }
 
-                if (mutableLikedProducts.contains(likedProduct)) {
-                    mutableLikedProducts.filter { it -> it != likedProduct }
-                } else {
+                if (!isInside) {
                     mutableLikedProducts.add(likedProduct)
                 }
 
