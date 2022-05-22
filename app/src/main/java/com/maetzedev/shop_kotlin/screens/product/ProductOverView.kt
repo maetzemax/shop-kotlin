@@ -18,22 +18,25 @@ import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
-import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
+import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.component.TopBar
 import com.maetzedev.shop_kotlin.utils.Formatters
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @Destination
 @Composable
 fun ProductOverView(
-    product: Product
+    product: Product,
+    navigator: DestinationsNavigator
 ) {
 
     val currencyFormatter = Formatters.CurrencyFormatter()
 
     Scaffold(
         topBar = { TopBar(title = product.name) },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navigator) }
     ) {
         Column(
             Modifier.padding(horizontal = 20.dp)
@@ -109,7 +112,8 @@ fun ProductOverView_Preview() {
                 name = "testname",
                 seller = "Maetzi",
                 created = Timestamp.now()
-            )
+            ),
+            navigator = EmptyDestinationsNavigator
         )
     }
 }

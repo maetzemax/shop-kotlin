@@ -1,6 +1,8 @@
 package com.maetzedev.shop_kotlin.screens.product
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,11 +31,21 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
+import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.screens.destinations.ProductOverViewDestination
 import com.maetzedev.shop_kotlin.utils.Formatters
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+
 
 @Destination
 @Composable
@@ -107,7 +119,9 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                     Icon(
                         Icons.Rounded.Favorite,
                         "Favorite",
-                        Modifier.clickable { /* TODO: add action*/ },
+                        Modifier.clickable {
+                            product.addToLikedProducts(product.id)
+                        },
                         favoriteColor
                     )
                 }
