@@ -25,8 +25,6 @@ fun Favorite(
 ) {
     val userData by favoriteViewModel.userData.collectAsState(initial = Resource.loading(null))
 
-
-
     when (userData.status) {
         Status.ERROR -> {
             Text("Es ist ein Fehler aufgetreten")
@@ -35,11 +33,6 @@ fun Favorite(
             Text("Loading.....")
         }
         else -> {
-            val test = favoriteViewModel.getLikedProductsList(userData.data!!.likedProducts).collectAsState(
-                initial = Resource.loading(null)
-            )
-            val products = test.value.data ?: emptyList()
-
             Scaffold(
                 topBar = { TopBar("Home") },
                 bottomBar = { BottomBar(navigator) },
@@ -50,9 +43,16 @@ fun Favorite(
                         .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
                         .padding(horizontal = 10.dp)
                 ) {
-                    if (products.isEmpty()) {
+                    if (userData.data!!.likedProducts.isEmpty()) {
                         Text("Du hast keine gemerkten Produkte")
                     } else {
+                        val test =
+                            favoriteViewModel.getLikedProductsList(userData.data!!.likedProducts)
+                                .collectAsState(
+                                    initial = Resource.loading(null)
+                                )
+                        val products = test.value.data ?: emptyList()
+
                         ProductList(
                             products = products,
                             navigator = navigator
@@ -60,6 +60,8 @@ fun Favorite(
                     }
                 }
             }
+
+
         }
     }
 }
