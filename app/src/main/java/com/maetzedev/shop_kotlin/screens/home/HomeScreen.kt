@@ -32,6 +32,8 @@ fun HomeScreen(
     val userData by viewModel.userData.collectAsState(initial = Resource.loading(null))
     val products = listState.data ?: emptyList()
 
+    
+
     when (listState.status) {
         Status.ERROR -> { // In case of an error:
             Text("Error: ${listState.message}")
@@ -40,11 +42,8 @@ fun HomeScreen(
             Text("Loading ....") // TODO: Replace with proper animation.
         }
         else -> { // Show all results fetched from firebase
-            if (userData.status != Status.SUCCESS) {
-                Text("Loading...")
-            }
+            val mappedProducts = viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
 
-            viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
             Scaffold(
                 topBar = { TopBar("Home", navigator) },
                 bottomBar = { BottomBar(navigator) },
@@ -56,7 +55,7 @@ fun HomeScreen(
                         .padding(horizontal = 10.dp)
                 ) {
                     ProductList(
-                        products = products,
+                        products = mappedProducts,
                         navigator = navigator
                     )
                 }
