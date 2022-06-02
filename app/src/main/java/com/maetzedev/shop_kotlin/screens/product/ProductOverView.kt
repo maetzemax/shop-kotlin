@@ -26,7 +26,7 @@ import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
-import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
+import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.utils.Formatters
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -42,23 +42,23 @@ fun ProductOverView(
     val currencyFormatter = Formatters.CurrencyFormatter()
 
     Scaffold(
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navigator) }
     ) {
         Column(
             Modifier
                 .padding(horizontal = 20.dp)
                 .padding(top = 40.dp)
         ) {
+
+            Icon(
+                Icons.Rounded.ArrowBack,
+                "BACK",
+                Modifier.clickable { navigator.navigate(HomeScreenDestination()) }
+            )
+
             LazyColumn(
                 content = {
                     item {
-
-                        Icon(
-                            Icons.Rounded.ArrowBack,
-                            "BACK",
-                            Modifier.clickable { navigator.navigate(HomeScreenDestination()) }
-                        )
-
                         Spacer(modifier = Modifier.height(20.dp))
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
