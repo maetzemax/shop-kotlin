@@ -46,12 +46,12 @@ fun Favorite(
                     if (userData.data!!.likedProducts.isEmpty()) {
                         Text("Du hast keine gemerkten Produkte")
                     } else {
-                        val test =
+                        val likedProducts =
                             favoriteViewModel.getLikedProductsList(userData.data!!.likedProducts)
                                 .collectAsState(
                                     initial = Resource.loading(null)
                                 )
-                        val products = test.value.data ?: emptyList()
+                        val products = likedProducts.value.data ?: emptyList()
 
                         ProductList(
                             products = products,
