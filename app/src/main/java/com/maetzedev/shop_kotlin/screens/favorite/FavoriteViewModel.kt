@@ -24,5 +24,9 @@ class FavoriteViewModel {
         return productsRepo.fetchProductsById(likedProducts)
     }
 
+    fun mapLikedProducts(products: List<Product?>) {
+        products.map { it!!.isLiked = true }
+    }
+
 
 }
