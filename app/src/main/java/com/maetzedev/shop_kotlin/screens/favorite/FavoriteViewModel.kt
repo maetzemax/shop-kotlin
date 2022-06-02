@@ -24,8 +24,24 @@ class FavoriteViewModel {
         return productsRepo.fetchProductsById(likedProducts)
     }
 
-    fun mapLikedProducts(products: List<Product?>) {
-        products.map { it!!.isLiked = true }
+    fun mapLikedProducts(products: List<Product?>): MutableList<Product?> {
+        val mappedProducts: MutableList<Product?> = listOf(null).toMutableList()
+        products.map { product ->
+            mappedProducts.add(
+                Product(
+                    docId = product!!.docId,
+                    id = product.id,
+                    created = product.created,
+                    name = product.name,
+                    isLiked = true,
+                    description = product.description,
+                    price = product.price,
+                    seller = product.seller
+                )
+            )
+        }
+
+        return mappedProducts
     }
 
 
