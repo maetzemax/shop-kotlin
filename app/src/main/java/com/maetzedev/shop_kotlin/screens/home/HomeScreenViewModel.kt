@@ -11,6 +11,7 @@ import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.models.status.Status
 import com.maetzedev.shop_kotlin.repositories.ProductsRepo
+import kotlinx.coroutines.flow.collect
 import java.util.concurrent.Flow
 
 class HomeScreenViewModel {
