@@ -23,9 +23,13 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @Destination
 @Composable
-fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator: DestinationsNavigator) {
+fun HomeScreen(
+    viewModel: HomeScreenViewModel = HomeScreenViewModel(),
+    navigator: DestinationsNavigator
+) {
 
     val listState by viewModel.currentListState.collectAsState(initial = Resource.loading(null))
+    val userData by viewModel.userData.collectAsState(initial = Resource.loading(null))
     val products = listState.data ?: emptyList()
 
     when (listState.status) {
@@ -36,6 +40,11 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator
             Text("Loading ....") // TODO: Replace with proper animation.
         }
         else -> { // Show all results fetched from firebase
+            if (userData.status != Status.SUCCESS) {
+                Text("Loading...")
+            }
+
+            viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
             Scaffold(
                 topBar = { TopBar("Home", navigator) },
                 bottomBar = { BottomBar(navigator) },

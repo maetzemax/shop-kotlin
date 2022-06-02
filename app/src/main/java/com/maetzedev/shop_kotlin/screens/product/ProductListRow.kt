@@ -13,6 +13,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomStart
@@ -116,14 +117,25 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                         style = MaterialTheme.typography.h5,
                         color = fontColor
                     )
-                    Icon(
-                        Icons.Rounded.Favorite,
-                        "Favorite",
-                        Modifier.clickable {
-                            product.addToLikedProducts(product.id)
-                        },
-                        favoriteColor
-                    )
+                    if (product.isLiked) {
+                        Icon(
+                            Icons.Rounded.Favorite,
+                            "Favorite",
+                            Modifier.clickable {
+                                product.addToLikedProducts(product.id)
+                            },
+                            favoriteColor
+                        )
+                    } else {
+                        Icon(
+                            Icons.Rounded.FavoriteBorder,
+                            "Favorite",
+                            Modifier.clickable {
+                                product.addToLikedProducts(product.id)
+                            },
+                            favoriteColor
+                        )
+                    }
                 }
             }
         }

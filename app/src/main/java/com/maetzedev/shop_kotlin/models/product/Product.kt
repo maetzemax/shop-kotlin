@@ -27,9 +27,10 @@ data class Product(
     var name: String,
     var description: String,
     var price: Double,
-    var seller: String
+    var seller: String,
+    var isLiked: Boolean = false,
     ) {
-    constructor() : this(docId = "0", id = 0, price = 0.00, description = "", name = "", seller = "", created = Timestamp.now()) {}
+    constructor() : this(docId = "0", id = 0, price = 0.00, description = "", name = "", seller = "", created = Timestamp.now(), isLiked = false) {}
 
     companion object {
         fun toObject(doc: DocumentSnapshot): Product? {
