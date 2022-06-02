@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.models.status.Status
 import com.maetzedev.shop_kotlin.screens.product.ProductList
-import com.maetzedev.shop_kotlin.uicomponents.component.TopBar
 import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
+import com.maetzedev.shop_kotlin.uicomponents.compose.TopBar
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -34,7 +34,7 @@ fun Favorite(
         }
         else -> {
             Scaffold(
-                topBar = { TopBar("Home") },
+                topBar = { TopBar("Home", navigator) },
                 bottomBar = { BottomBar(navigator) },
 
                 ) {

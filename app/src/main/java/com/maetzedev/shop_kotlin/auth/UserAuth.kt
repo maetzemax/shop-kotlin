@@ -6,10 +6,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.rpc.context.AttributeContext
-import com.maetzedev.shop_kotlin.models.user.User
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.screens.destinations.LoginScreenDestination
 import com.maetzedev.shop_kotlin.screens.destinations.StartupScreenDestination

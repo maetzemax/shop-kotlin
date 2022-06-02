@@ -15,7 +15,7 @@ import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.models.status.Status
 import com.maetzedev.shop_kotlin.screens.product.ProductList
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
-import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
+import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.compose.TopBar
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -38,7 +38,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel = HomeScreenViewModel(), navigator
         else -> { // Show all results fetched from firebase
             Scaffold(
                 topBar = { TopBar("Home", navigator) },
-                bottomBar = { BottomBar() },
+                bottomBar = { BottomBar(navigator) },
 
                 ) {
                 Column(

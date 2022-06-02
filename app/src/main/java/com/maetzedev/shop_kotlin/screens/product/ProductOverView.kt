@@ -18,7 +18,7 @@ import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
-import com.maetzedev.shop_kotlin.uicomponents.component.BottomBar
+import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.compose.TopBar
 import com.maetzedev.shop_kotlin.utils.Formatters
 import com.ramcosta.composedestinations.annotation.Destination
@@ -36,7 +36,7 @@ fun ProductOverView(
 
     Scaffold(
         topBar = { TopBar(title = product.name, navigator) },
-        bottomBar = { BottomBar() }
+        bottomBar = { BottomBar(navigator) }
     ) {
         Column(
             Modifier.padding(horizontal = 20.dp)
