@@ -16,20 +16,24 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ProductList(products: List<Product?>, navigator: DestinationsNavigator) {
+
     LazyRow(
         verticalAlignment = Alignment.Top
     )
     {
-        items(products) { product ->
-            if (!products.isEmpty()) { // If there is a product create list
-                ProductListRow(product = product!!, navigator = navigator)
-
-
-                Spacer(Modifier.width(10.dp))
-            } else { // Display error message
-                // TODO: Show proper error message
-                Text("Keine Ergebnisse")
+        if (products.isNotEmpty()) {
+            items(products) { product ->  // If there is a product create list
+                product?.let { ProductListRow(product = it, navigator = navigator) }
+                    Spacer(Modifier.width(10.dp))
             }
+        } else { // Display error message
+            // TODO: Show proper error message
+                item {
+                    Text("Keine Ergebnisse")
+                }
         }
+
     }
+
+
 }

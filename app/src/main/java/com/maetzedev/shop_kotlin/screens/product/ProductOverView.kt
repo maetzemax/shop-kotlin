@@ -11,8 +11,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,11 +62,26 @@ fun ProductOverView(
 
                 Spacer(Modifier.weight(1f))
 
-                Icon(
-                    Icons.Default.Favorite,
-                    "Like",
-                    Modifier.clickable { product.addToLikedProducts(product.id) }
-                )
+                if (product.isLiked) {
+                    Icon(
+                        Icons.Rounded.Favorite,
+                        "Favorite",
+                        Modifier.clickable {
+                            product.addToLikedProducts(product.id)
+                        },
+                        Color.Red
+                    )
+                } else {
+                    Icon(
+                        Icons.Rounded.FavoriteBorder,
+                        "Favorite",
+                        Modifier.clickable {
+                            product.addToLikedProducts(product.id)
+                        },
+                        Color.Gray
+                    )
+                }
+
             }
 
 

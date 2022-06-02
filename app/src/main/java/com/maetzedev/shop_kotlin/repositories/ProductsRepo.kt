@@ -3,13 +3,11 @@ package com.maetzedev.shop_kotlin.repositories
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.models.status.Resource
-import com.maetzedev.shop_kotlin.models.user.User
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 

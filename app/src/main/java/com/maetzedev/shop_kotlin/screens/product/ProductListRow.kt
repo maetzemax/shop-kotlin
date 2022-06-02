@@ -39,8 +39,8 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
     Box(contentAlignment = Alignment.TopEnd) {
         Column(
             Modifier
-                .requiredWidthIn(0.dp, 212.dp)
-                .requiredHeightIn(0.dp, 250.dp)
+                .requiredHeightIn(max = 250.dp)
+                .requiredWidthIn(max=200.dp)
                 .clip(RoundedCornerShape(size = 20.dp))
                 .background(Color.White)
                 .clickable { navigator.navigate(ProductOverViewDestination(product = product)) }
@@ -51,6 +51,7 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                 contentDescription = null,
                 modifier = Modifier
                     .aspectRatio(1.70f)
+
             )
 
             Spacer(Modifier.height(5.dp))
@@ -94,7 +95,8 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                 .padding(top = 15.dp)
                 .clip(RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp))
                 .background(Color(0xFF243156))
-                .padding(horizontal = 10.dp).padding(end = 20.dp),
+                .padding(horizontal = 10.dp)
+                .padding(end = 20.dp),
             color = Color.White,
             fontWeight = FontWeight.SemiBold,
             style = MaterialTheme.typography.h6
