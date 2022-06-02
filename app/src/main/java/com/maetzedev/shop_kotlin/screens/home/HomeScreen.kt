@@ -45,7 +45,7 @@ fun HomeScreen(
             val mappedProducts = viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
 
             Scaffold(
-                topBar = { TopBar("Home", navigator) },
+                topBar = { TopBar("vehicled", navigator) },
                 bottomBar = { BottomBar(navigator) },
 
                 ) {

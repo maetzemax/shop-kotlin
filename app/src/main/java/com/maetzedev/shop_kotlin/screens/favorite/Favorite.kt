@@ -34,7 +34,7 @@ fun Favorite(
         }
         else -> {
             Scaffold(
-                topBar = { TopBar("Home", navigator) },
+                topBar = { TopBar("Gefällt dir", navigator) },
                 bottomBar = { BottomBar(navigator) },
 
                 ) {

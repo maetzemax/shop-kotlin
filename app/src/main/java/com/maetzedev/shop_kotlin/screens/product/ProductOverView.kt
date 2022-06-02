@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,11 +51,23 @@ fun ProductOverView(
                 .padding(top = 40.dp)
         ) {
 
-            Icon(
-                Icons.Rounded.ArrowBack,
-                "BACK",
-                Modifier.clickable { navigator.navigate(HomeScreenDestination()) }
-            )
+            Row() {
+
+                Icon(
+                    Icons.Rounded.ArrowBack,
+                    "BACK",
+                    Modifier.clickable { navigator.navigate(HomeScreenDestination()) }
+                )
+
+                Spacer(Modifier.weight(1f))
+
+                Icon(
+                    Icons.Default.Favorite,
+                    "Like",
+                    Modifier.clickable { product.addToLikedProducts(product.id) }
+                )
+            }
+
 
             LazyColumn(
                 content = {
