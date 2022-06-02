@@ -40,14 +40,12 @@ data class Product(
     }
 
     fun addToLikedProducts(likedProduct: Int) {
-
-        Log.e("REACHED", "we are here party")
         val db = Firebase.firestore
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: throw Error()
 
         db.collection("users").document(uid).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.e("Successful", "Lets go")
+                Log.v("LikedProduct", "LikedProducts successfully loaded")
 
                 val likedProducts: List<Int> = task.result.data?.get("likedProducts") as List<Int>
                 var mutableLikedProducts = likedProducts.toMutableList()
@@ -65,7 +63,7 @@ data class Product(
                 }
 
 
-                Log.e("updatedLikedProducts", mutableLikedProducts.toString())
+                Log.v("updatedLikedProducts", mutableLikedProducts.toString())
                 val collection = db.collection("users").document(uid).update("likedProducts", mutableLikedProducts)
             }
         }
