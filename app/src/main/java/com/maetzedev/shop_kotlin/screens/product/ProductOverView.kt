@@ -38,8 +38,10 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 @Composable
 fun ProductOverView(
     product: Product,
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
+
+    val viewModel: ProductViewModel = ProductViewModel(product)
 
     val currencyFormatter = Formatters.CurrencyFormatter()
 
@@ -62,12 +64,13 @@ fun ProductOverView(
 
                 Spacer(Modifier.weight(1f))
 
-                if (product.isLiked) {
+                if (viewModel.isProductLiked) {
                     Icon(
                         Icons.Rounded.Favorite,
                         "Favorite",
                         Modifier.clickable {
-                            product.addToLikedProducts(product.id)
+                            viewModel.addToFavoriteItems(product.id)
+                            viewModel.updateLike(product)
                         },
                         Color.Red
                     )
@@ -76,7 +79,8 @@ fun ProductOverView(
                         Icons.Rounded.FavoriteBorder,
                         "Favorite",
                         Modifier.clickable {
-                            product.addToLikedProducts(product.id)
+                            viewModel.addToFavoriteItems(product.id)
+                            viewModel.updateLike(product)
                         },
                         Color.Gray
                     )

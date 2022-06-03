@@ -33,7 +33,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @Destination
 @Composable
-fun FavoriteProductListRow(product: Product, navigator: DestinationsNavigator) {
+fun FavoriteProductListRow(product: Product, navigator: DestinationsNavigator, viewModel: FavoriteViewModel = FavoriteViewModel()) {
 
     val currencyFormatter = Formatters.CurrencyFormatter()
 
@@ -104,7 +104,7 @@ fun FavoriteProductListRow(product: Product, navigator: DestinationsNavigator) {
 
             Row {
 
-                Button(onClick = { product.addToLikedProducts(product.id) }, Modifier.padding(top = 15.dp)) {
+                Button(onClick = { viewModel.addToLikedProduct(product.id) }, Modifier.padding(top = 15.dp)) {
                     Icon(Icons.Filled.Delete, contentDescription = null)
                 }
 

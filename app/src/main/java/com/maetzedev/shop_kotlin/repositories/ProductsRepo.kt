@@ -3,6 +3,7 @@ package com.maetzedev.shop_kotlin.repositories
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -48,6 +49,38 @@ class ProductsRepo {
 
         awaitClose() {
             snapshotListener.remove()
+        }
+    }
+
+    fun addToLikedProducts(likedProduct: Int) {
+
+        Log.e("REACHED", "we are here party")
+        val db = Firebase.firestore
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: throw Error()
+
+        db.collection("users").document(uid).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.e("Successful", "Lets go")
+
+                val likedProducts: List<Int> = task.result.data?.get("likedProducts") as List<Int>
+                var mutableLikedProducts = likedProducts.toMutableList()
+                var isInside = false
+
+                likedProducts.forEach {
+                    if (it - likedProduct == 0)  {
+                        isInside = true
+                        mutableLikedProducts = mutableLikedProducts.filter { it -> it != likedProduct }.toMutableList()
+                    }
+                }
+
+                if (!isInside) {
+                    mutableLikedProducts.add(likedProduct)
+                }
+
+
+                Log.e("updatedLikedProducts", mutableLikedProducts.toString())
+                val collection = db.collection("users").document(uid).update("likedProducts", mutableLikedProducts)
+            }
         }
     }
 

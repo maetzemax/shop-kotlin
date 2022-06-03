@@ -55,7 +55,7 @@ fun Favorite(
                         val mappedProducts = favoriteViewModel.mapLikedProducts(products)
 
                         FavoriteProductList(
-                            products = products,
+                            products = mappedProducts,
                             navigator = navigator
                         )
                     }

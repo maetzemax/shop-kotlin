@@ -45,11 +45,10 @@ fun HomeScreen(
         }
         else -> { // Show all results fetched from firebase
 
-            userData.data.let { data ->
-
                 if (userData.status == Status.SUCCESS) {
                     val mappedProducts =
                         viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
+
 
 
                     Scaffold(
@@ -68,7 +67,7 @@ fun HomeScreen(
                                 Text("Alle Produkte")
 
                                 ProductList(
-                                    products = products,
+                                    products = mappedProducts,
                                     navigator = navigator
                                 )
 
@@ -77,7 +76,7 @@ fun HomeScreen(
                                 Text("Preis Absteigend")
 
                                 ProductList(
-                                    products = products.sortedByDescending { it!!.price },
+                                    products = mappedProducts.sortedByDescending { it!!.price },
                                     navigator = navigator
                                 )
 
@@ -95,7 +94,6 @@ fun HomeScreen(
                         }
                     }
                 }
-            }
         }
     }
 }

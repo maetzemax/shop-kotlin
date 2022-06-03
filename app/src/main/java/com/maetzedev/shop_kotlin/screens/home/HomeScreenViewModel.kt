@@ -17,10 +17,10 @@ class HomeScreenViewModel {
 
     var currentListState = this.productRepository.fetchProducts()
     var userData = this.userRepo.fetchUserData()
-    
 
-    fun mapLikedProducts(products: List<Product?>, likedProducts: List<Int>): MutableList<Product?> {
-        val mappedProducts: MutableList<Product?> = listOf(null).toMutableList()
+
+    fun mapLikedProducts(products: List<Product?>, likedProducts: List<Int>): List<Product?> {
+        var mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
         var isAdded = false
 
         products.forEach() { product ->
