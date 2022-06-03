@@ -1,6 +1,8 @@
 package com.maetzedev.shop_kotlin.screens.favorite
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,9 +30,10 @@ fun FavoriteProductList(products: List<Product?>, navigator: DestinationsNavigat
         } else { // Display error message
             // TODO: Show proper error message
             item {
-                Text("Keine Ergebnisse")
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("Keine Ergebnisse")
+                }
             }
         }
-
     }
 }
