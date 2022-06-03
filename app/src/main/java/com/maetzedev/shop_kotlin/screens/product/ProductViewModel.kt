@@ -12,9 +12,12 @@ class ProductViewModel(product: Product) {
 
     var isProductLiked by mutableStateOf(false)
         private set
+    var isProductInCart by mutableStateOf(false)
+        private set
 
     init {
         isProductLiked = product.isLiked
+        isProductInCart = product.isInCart
     }
 
     fun addToFavoriteItems(productId: Int) {
@@ -25,8 +28,9 @@ class ProductViewModel(product: Product) {
         isProductLiked = !isProductLiked
     }
 
-    fun addToProductsCart(productId: Int) {
+    fun updateProductsCart(productId: Int) {
         productsRepo.updateProductsCart(productId)
+        isProductInCart = !isProductInCart
     }
 
 }

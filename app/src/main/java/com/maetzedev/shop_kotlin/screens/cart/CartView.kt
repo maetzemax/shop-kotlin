@@ -6,6 +6,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,14 +49,17 @@ fun CartView(viewModel: CartViewModel = CartViewModel(), navigator: Destinations
                 }
 
                 Status.SUCCESS -> {
-                    val products by viewModel.getCartProductsList(userData.data!!.cartProducts)
-                        .collectAsState(initial = Resource.loading(null))
+                    if (userData.data!!.cartProducts.isNotEmpty()) {
+                        val products by viewModel.getCartProductsList(userData.data!!.cartProducts)
+                            .collectAsState(initial = Resource.loading(null))
 
-                    if (products.status == Status.SUCCESS && products.data!!.isNotEmpty()) {
-                        val cartProducts = products.data ?: emptyList()
-                        val mappedCartProducts = viewModel.mapProducts(cartProducts, userData.data!!.likedProducts)
+                        if (products.status == Status.SUCCESS && products.data!!.isNotEmpty()) {
+                            val cartProducts = products.data ?: emptyList()
+                            val mappedCartProducts =
+                                viewModel.mapProducts(cartProducts, userData.data!!.likedProducts)
 
-                        CartViewList(products = mappedCartProducts, navigator = navigator)
+                            CartViewList(products = mappedCartProducts, navigator = navigator)
+                        }
                     } else {
                         CenteredBoxWithText(
                             text = "Es befindet sich kein Produkt im Warenkorb",

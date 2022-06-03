@@ -158,9 +158,9 @@ fun ProductOverView(
                                             0xFF4160B4
                                         )
                                     )
-                                    .clickable { viewModel.addToProductsCart(product.id) }
+                                    .clickable { viewModel.updateProductsCart(product.id) }
                                     .padding(10.dp),
-                                text = if (!product.isInCart) "ZUM WARENKORB HINZUFÜGEN" else "VOM WARENKORB ENTFERNEN",
+                                text = if (!viewModel.isProductInCart) "ZUM WARENKORB HINZUFÜGEN" else "VOM WARENKORB ENTFERNEN",
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Color.White
                             )
