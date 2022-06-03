@@ -1,6 +1,8 @@
 package com.maetzedev.shop_kotlin.screens.product
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,23 +19,30 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun ProductList(products: List<Product?>, navigator: DestinationsNavigator) {
 
-    LazyRow(
-        verticalAlignment = Alignment.Top
-    )
-    {
-        if (products.isNotEmpty()) {
-            items(products) { product ->  // If there is a product create list
-                product?.let { ProductListRow(product = it, navigator = navigator) }
+    Column() {
+
+        Text("Alle Produkte")
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        LazyRow(
+            verticalAlignment = Alignment.Top
+        )
+        {
+
+            if (products.isNotEmpty()) {
+                items(products) { product ->  // If there is a product create list
+                    product?.let { ProductListRow(product = it, navigator = navigator) }
                     Spacer(Modifier.width(10.dp))
-            }
-        } else { // Display error message
-            // TODO: Show proper error message
+                }
+            } else { // Display error message
+                // TODO: Show proper error message
                 item {
                     Text("Keine Ergebnisse")
                 }
+            }
+
         }
 
     }
-
-
 }

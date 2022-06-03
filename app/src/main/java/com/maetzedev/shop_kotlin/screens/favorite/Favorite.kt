@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.models.status.Status
-import com.maetzedev.shop_kotlin.screens.product.ProductList
 import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.compose.TopBar
 import com.ramcosta.composedestinations.annotation.Destination
@@ -34,7 +33,7 @@ fun Favorite(
         }
         else -> {
             Scaffold(
-                topBar = { TopBar("Gefällt dir", navigator) },
+                topBar = { TopBar("Favoriten", navigator) },
                 bottomBar = { BottomBar(navigator) },
 
                 ) {
@@ -55,8 +54,8 @@ fun Favorite(
                         // updates isLiked to true, because all products in favorite are already liked
                         val mappedProducts = favoriteViewModel.mapLikedProducts(products)
 
-                        ProductList(
-                            products = mappedProducts,
+                        FavoriteProductList(
+                            products = products,
                             navigator = navigator
                         )
                     }

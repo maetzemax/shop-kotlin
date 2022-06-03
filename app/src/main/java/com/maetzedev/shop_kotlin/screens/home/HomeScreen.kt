@@ -42,22 +42,30 @@ fun HomeScreen(
             Text("Loading ....") // TODO: Replace with proper animation.
         }
         else -> { // Show all results fetched from firebase
-            val mappedProducts = viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
 
-            Scaffold(
-                topBar = { TopBar("vehicled", navigator) },
-                bottomBar = { BottomBar(navigator) },
+            userData.data.let { data ->
 
-                ) {
-                Column(
-                    Modifier
-                        .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
-                        .padding(horizontal = 10.dp)
-                ) {
-                    ProductList(
-                        products = mappedProducts,
-                        navigator = navigator
-                    )
+                if (userData.status == Status.SUCCESS) {
+                    val mappedProducts =
+                        viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
+
+
+                    Scaffold(
+                        topBar = { TopBar("vehicled", navigator) },
+                        bottomBar = { BottomBar(navigator) },
+
+                        ) {
+                        Column(
+                            Modifier
+                                .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
+                                .padding(horizontal = 10.dp)
+                        ) {
+                            ProductList(
+                                products = mappedProducts,
+                                navigator = navigator
+                            )
+                        }
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maetzedev.shop_kotlin.screens.destinations.CartViewDestination
 import com.maetzedev.shop_kotlin.screens.destinations.FavoriteDestination
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
@@ -48,7 +49,7 @@ fun BottomBar(
                 Spacer(Modifier.weight(1f))
 
                 Column(
-                    Modifier.clickable { TODO("Implementation of Navigation") },
+                    Modifier.clickable { navigator.navigate(CartViewDestination) },
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Icon(
