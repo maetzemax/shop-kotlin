@@ -19,43 +19,38 @@ class HomeScreenViewModel {
     var userData = this.userRepo.fetchUserData()
 
 
-    fun mapLikedProducts(products: List<Product?>, likedProducts: List<Int>): List<Product?> {
-        var mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
-        var isAdded = false
+    fun mapLikedProducts(products: List<Product?>, likedProducts: List<Int>, productsCart: List<Int>): List<Product?> {
+        val mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
+        var isLikedTemp = false
+        var isInCartTemp = false
 
+        // very weird way of mapping a product, but kotlin does not provide a better way (.map does not work)
         products.forEach() { product ->
-            likedProducts.forEach() {
+            likedProducts.forEach {
                 if (product!!.id == it) {
-                    mappedProducts.add(
-                        Product(
-                            docId = product.docId,
-                            id = product.id,
-                            created = product.created,
-                            name = product.name,
-                            isLiked = true,
-                            description = product.description,
-                            price = product.price,
-                            seller = product.seller
-                        )
-                    )
-                    isAdded = true
+                    isLikedTemp = true
                 }
             }
-            if (!isAdded) {
-                mappedProducts.add(
-                    Product(
-                        docId = product!!.docId,
-                        id = product.id,
-                        created = product.created,
-                        name = product.name,
-                        isLiked = false,
-                        description = product.description,
-                        price = product.price,
-                        seller = product.seller
-                    )
-                )
+            productsCart.forEach {
+                if (product!!.id == it) {
+                    isInCartTemp = true
+                }
             }
-            isAdded = false
+            mappedProducts.add(
+                Product(
+                    docId = product!!.docId,
+                    id = product.id,
+                    created = product.created,
+                    name = product.name,
+                    isLiked = isLikedTemp,
+                    isInCart = isInCartTemp,
+                    description = product.description,
+                    price = product.price,
+                    seller = product.seller
+                )
+            )
+            isInCartTemp = false
+            isLikedTemp = false
         }
         return mappedProducts
     }

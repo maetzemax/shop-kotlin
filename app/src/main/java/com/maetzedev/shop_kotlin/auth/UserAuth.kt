@@ -1,22 +1,17 @@
 package com.maetzedev.shop_kotlin.auth
 
 import android.util.Log
-import androidx.compose.animation.core.exponentialDecay
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.rpc.context.AttributeContext
 import com.maetzedev.shop_kotlin.models.user.User
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.screens.destinations.LoginScreenDestination
 import com.maetzedev.shop_kotlin.screens.destinations.StartupScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import java.sql.Timestamp
-import java.time.Instant
 
 /**
  * UserAuth
@@ -42,11 +37,11 @@ class UserAuth : UserCheck() {
             }
     }
 
-    fun createDocument() {
+    private fun createDocument() {
         val uid = Firebase.auth.currentUser?.uid ?: throw Error()
         val db = Firebase.firestore
 
-        db.collection("users").document(uid).set(User("" + System.currentTimeMillis(), listOf(0)))
+        db.collection("users").document(uid).set(User("" + System.currentTimeMillis(), listOf(0), listOf(0)))
     }
 
     @Throws(UserNotLoggedIn::class)

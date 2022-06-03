@@ -14,15 +14,19 @@ class ProductViewModel(product: Product) {
         private set
 
     init {
-        isProductLiked = product.isLiked!!
+        isProductLiked = product.isLiked
     }
 
     fun addToFavoriteItems(productId: Int) {
         productsRepo.addToLikedProducts(productId)
     }
 
-    fun updateLike(product: Product) {
+    fun updateLike() {
         isProductLiked = !isProductLiked
+    }
+
+    fun addToProductsCart(productId: Int) {
+        productsRepo.updateProductsCart(productId)
     }
 
 }

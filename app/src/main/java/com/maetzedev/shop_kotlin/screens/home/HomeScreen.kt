@@ -47,7 +47,7 @@ fun HomeScreen(
 
                 if (userData.status == Status.SUCCESS) {
                     val mappedProducts =
-                        viewModel.mapLikedProducts(products, userData.data!!.likedProducts)
+                        viewModel.mapLikedProducts(products, userData.data!!.likedProducts, userData.data!!.cartProducts)
 
 
 
