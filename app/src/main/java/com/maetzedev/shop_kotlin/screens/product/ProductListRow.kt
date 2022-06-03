@@ -44,7 +44,8 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                 .clip(RoundedCornerShape(size = 20.dp))
                 .background(Color.White)
                 .clickable { navigator.navigate(ProductOverViewDestination(product = product)) }
-                .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally) {
 
             Image(
                 painterResource(id = R.drawable.car_placeholder),

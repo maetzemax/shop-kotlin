@@ -21,8 +21,6 @@ fun ProductList(products: List<Product?>, navigator: DestinationsNavigator) {
 
     Column() {
 
-        Text("Alle Produkte")
-
         Spacer(modifier = Modifier.height(10.dp))
 
         LazyRow(

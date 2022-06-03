@@ -1,8 +1,10 @@
 package com.maetzedev.shop_kotlin.screens.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -55,15 +57,41 @@ fun HomeScreen(
                         bottomBar = { BottomBar(navigator) },
 
                         ) {
-                        Column(
+                        LazyColumn(
                             Modifier
                                 .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
                                 .padding(horizontal = 10.dp)
                         ) {
-                            ProductList(
-                                products = mappedProducts,
-                                navigator = navigator
-                            )
+
+                            item {
+
+                                Text("Alle Produkte")
+
+                                ProductList(
+                                    products = products,
+                                    navigator = navigator
+                                )
+
+                                Spacer(Modifier.height(20.dp))
+
+                                Text("Preis Absteigend")
+
+                                ProductList(
+                                    products = products.sortedByDescending { it!!.price },
+                                    navigator = navigator
+                                )
+
+                                Spacer(Modifier.height(20.dp))
+
+                                Text("Name A-Z")
+
+                                ProductList(
+                                    products = products.sortedBy { it!!.name },
+                                    navigator = navigator
+                                )
+
+                                Spacer(Modifier.height(20.dp))
+                            }
                         }
                     }
                 }

@@ -1,15 +1,12 @@
 package com.maetzedev.shop_kotlin.screens.cart
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddCircle
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
@@ -30,17 +27,11 @@ fun CartView(viewModel: CartViewModel = CartViewModel(), navigator: Destinations
         topBar = { TopBar(title = "Warenkorb", navigator = navigator) },
         bottomBar = { BottomBar(navigator = navigator) }
     ) {
-        Column(Modifier.padding(it)) {
-            Row {
-
-                var amount by remember { mutableStateOf(1) }
-
-                Text(text = "Krümmre, Anzahl:" + amount.toString())
-
-                Button(onClick = { amount += 1 }) {
-                    Icon(Icons.Rounded.AddCircle, contentDescription = null)
-                }
-            }
+        Box(
+            Modifier.padding(bottom = it.calculateBottomPadding()).fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Es befindet sich kein Produkt im Warenkorb")
         }
     }
 

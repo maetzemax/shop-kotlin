@@ -2,7 +2,9 @@ package com.maetzedev.shop_kotlin.screens.settings
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
@@ -53,7 +55,7 @@ fun SettingsScreen(
     val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
-    ShopkotlinTheme {
+    Scaffold {
 
 
         Container {
@@ -172,7 +174,7 @@ fun SettingsScreen(
                 }
             } else {
                 PrimaryButton({
-                    Text("Logout")
+                    Text("Logout", Modifier.padding(it.calculateTopPadding()))
                 }) {
                     settingsScreenViewModel?.onClickLogout(navigator)
                 }
@@ -195,5 +197,7 @@ fun SettingsScreen(
 )
 @Composable
 fun PreviewSettingsScreen() {
-    SettingsScreen(null, EmptyDestinationsNavigator)
+    ShopkotlinTheme {
+        SettingsScreen(null, EmptyDestinationsNavigator)
+    }
 }
