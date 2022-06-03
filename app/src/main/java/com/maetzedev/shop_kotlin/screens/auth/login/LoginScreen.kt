@@ -71,9 +71,7 @@ fun LoginScreen(
 
             ErrorText(generalError)
 
-            PrimaryButton({
-                Text("Anmelden")
-            }) { loginScreenViewModel?.onClickLogin(email, password, setGeneralError, navigator) }
+            PrimaryButton("Anmelden") { loginScreenViewModel?.onClickLogin(email, password, setGeneralError, navigator) }
 
             Spacer(Modifier.size(20.dp))
 

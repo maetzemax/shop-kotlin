@@ -28,45 +28,39 @@ class CartViewModel {
 
     fun mapProducts(products: List<Product?>, likedProducts: List<Int>): List<Product?> {
         val mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
-        var isAdded = false
+        var isLikedTemp = false
 
         products.forEach { product ->
             likedProducts.forEach { likedProduct ->
                 if (product!!.id == likedProduct) {
-                    mappedProducts.add(
-                        Product(
-                            docId = product.docId,
-                            id = product.id,
-                            created = product.created,
-                            name = product.name,
-                            isLiked = true,
-                            isInCart = true,
-                            description = product.description,
-                            price = product.price,
-                            seller = product.seller
-                        )
-                    )
-                    isAdded = true
+                    isLikedTemp = true
                 }
             }
-            if (!isAdded) {
-                mappedProducts.add(
-                    Product(
-                        docId = product!!.docId,
-                        id = product.id,
-                        created = product.created,
-                        name = product.name,
-                        isLiked = false,
-                        isInCart = true,
-                        description = product.description,
-                        price = product.price,
-                        seller = product.seller
-                    )
+            mappedProducts.add(
+                Product(
+                    docId = product!!.docId,
+                    id = product.id,
+                    created = product.created,
+                    name = product.name,
+                    isLiked = isLikedTemp,
+                    isInCart = true,
+                    description = product.description,
+                    price = product.price,
+                    seller = product.seller
                 )
-            }
-            isAdded = false
+            )
+            isLikedTemp = false
         }
 
         return mappedProducts
+    }
+
+    fun getSumOfAllProducts(products: List<Product?>): Double {
+        var sum = 0.0
+
+        products.forEach {
+            sum += it!!.price
+        }
+        return sum
     }
 }

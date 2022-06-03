@@ -1,7 +1,9 @@
 package com.maetzedev.shop_kotlin.screens.cart
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -58,7 +60,14 @@ fun CartView(viewModel: CartViewModel = CartViewModel(), navigator: Destinations
                             val mappedCartProducts =
                                 viewModel.mapProducts(cartProducts, userData.data!!.likedProducts)
 
-                            CartViewList(products = mappedCartProducts, navigator = navigator)
+                            Column {
+                                Box(Modifier.weight(4F)) {
+                                    CartViewList(products = mappedCartProducts, navigator = navigator)
+                                }
+                                Box(Modifier.weight(1F)) {
+                                    CartSumPrice(products = mappedCartProducts, navigator = navigator)
+                                }
+                            }
                         }
                     } else {
                         CenteredBoxWithText(

@@ -2,7 +2,6 @@ package com.maetzedev.shop_kotlin.screens.settings
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -55,8 +54,8 @@ fun SettingsScreen(
     val (email, setEmail) = remember { mutableStateOf("") }
     val (password, setPassword) = remember { mutableStateOf("") }
 
-    Scaffold {
-
+    // we can ignore the following error
+    Scaffold {  _ ->
 
         Container {
             ScreenHeadline("Einstellungen")
@@ -139,9 +138,7 @@ fun SettingsScreen(
             ErrorText(error.general)
 
             if (editMode.displayName || editMode.email || editMode.password) {
-                PrimaryButton({
-                    Text("Speichern")
-                }) {
+                PrimaryButton("Speichern") {
                     if (editMode.displayName) {
                         settingsScreenViewModel?.updateDisplayName(
                             displayName,
@@ -173,9 +170,7 @@ fun SettingsScreen(
                     )
                 }
             } else {
-                PrimaryButton({
-                    Text("Logout", Modifier.padding(it.calculateTopPadding()))
-                }) {
+                PrimaryButton("Logout") {
                     settingsScreenViewModel?.onClickLogout(navigator)
                 }
             }
