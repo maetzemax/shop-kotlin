@@ -21,19 +21,28 @@ class FavoriteViewModel {
         return productsRepo.fetchProductsById(likedProducts)
     }
 
-    fun mapLikedProducts(products: List<Product?>): List<Product?> {
-        var mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
-        products.map { product ->
+    fun mapLikedProducts(products: List<Product?>, cartProducts: List<Int>): List<Product?> {
+        val mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
+        var isInCartTemp = false
+
+        products.forEach { product ->
+            cartProducts.forEach { cartProduct ->
+                if (cartProduct == product!!.id) {
+                    isInCartTemp = true
+                }
+            }
             mappedProducts.add(Product(
                 docId = product!!.docId,
                 id = product.id,
                 created = product.created,
                 name = product.name,
                 isLiked = true,
+                isInCart = isInCartTemp,
                 description = product.description,
                 price = product.price,
                 seller = product.seller
             ))
+            isInCartTemp = false
         }
 
         return mappedProducts
@@ -42,6 +51,4 @@ class FavoriteViewModel {
     fun addToLikedProduct(productId: Int) {
         productsRepo.addToLikedProducts(productId)
     }
-
-
 }

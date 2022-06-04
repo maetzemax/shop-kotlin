@@ -36,7 +36,7 @@ fun PasswordResetScreen(passwordResetScreenViewModel: PasswordResetScreenViewMod
 
         InputField(
             email,
-            { passwordResetScreenViewModel?.handleOnEmailChange(it, setEmail, setEmailError)},
+            { passwordResetScreenViewModel?.handleOnEmailChange(it, setEmail, setEmailError) },
             "E-Mail Adresse",
             "example@website.com",
             isEmail = true,
@@ -45,9 +45,7 @@ fun PasswordResetScreen(passwordResetScreenViewModel: PasswordResetScreenViewMod
 
         ErrorText(generalError)
 
-        PrimaryButton({
-            Text("Absenden")
-        }) { passwordResetScreenViewModel?.onClickPasswordReset(email) }
+        PrimaryButton("Absenden") { passwordResetScreenViewModel?.onClickPasswordReset(email) }
     }
 }
 

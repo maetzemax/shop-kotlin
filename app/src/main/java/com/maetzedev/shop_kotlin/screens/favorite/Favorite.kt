@@ -52,7 +52,7 @@ fun Favorite(
                                 )
                         val products = likedProducts.value.data ?: emptyList()
                         // updates isLiked to true, because all products in favorite are already liked
-                        val mappedProducts = favoriteViewModel.mapLikedProducts(products)
+                        val mappedProducts = favoriteViewModel.mapLikedProducts(products, userData.data!!.cartProducts)
 
                         FavoriteProductList(
                             products = mappedProducts,

@@ -1,4 +1,4 @@
-package com.maetzedev.shop_kotlin.screens.favorite
+package com.maetzedev.shop_kotlin.screens.cart
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -12,19 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.maetzedev.shop_kotlin.models.product.Product
-import com.ramcosta.composedestinations.annotation.Destination
+import com.maetzedev.shop_kotlin.screens.favorite.FavoriteProductListRow
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination
 @Composable
-fun FavoriteProductList(products: List<Product?>, navigator: DestinationsNavigator) {
-    LazyColumn(
-        horizontalAlignment = Alignment.Start
-    )
-    {
+fun CartViewList(products: List<Product?>, navigator: DestinationsNavigator) {
+    LazyColumn(horizontalAlignment = Alignment.Start) {
         if (products.isNotEmpty()) {
             items(products) { product ->  // If there is a product create list
-                product?.let { FavoriteProductListRow(product = it, navigator = navigator) }
+                product?.let { CartViewListRow(product = it, navigator = navigator) }
                 Spacer(Modifier.height(20.dp))
             }
         } else { // Display error message

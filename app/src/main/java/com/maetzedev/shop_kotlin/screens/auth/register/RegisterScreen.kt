@@ -115,9 +115,7 @@ fun RegisterScreen(
 
                 ErrorText(generalError)
 
-                PrimaryButton({
-                    Text("Registrieren")
-                }) {
+                PrimaryButton("Registrieren") {
                     registerScreenViewModel?.onClickRegister(email, password, passwordConfirmation, displayName, setGeneralError, navigator)
                 }
 

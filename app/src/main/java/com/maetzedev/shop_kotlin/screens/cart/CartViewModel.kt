@@ -1,39 +1,39 @@
-package com.maetzedev.shop_kotlin.screens.home
-
+package com.maetzedev.shop_kotlin.screens.cart
 
 import com.google.firebase.FirebaseApp
 import com.maetzedev.shop_kotlin.models.product.Product
+import com.maetzedev.shop_kotlin.models.status.Resource
 import com.maetzedev.shop_kotlin.repositories.ProductsRepo
 import com.maetzedev.shop_kotlin.repositories.UserRepo
+import kotlinx.coroutines.flow.Flow
 
-class HomeScreenViewModel {
-
-    private val productRepository by lazy { ProductsRepo() }
+class CartViewModel {
     private val userRepo by lazy { UserRepo() }
+    private val productsRepo by lazy { ProductsRepo() }
+
+    val userData = userRepo.fetchUserData()
+
 
     init {
         FirebaseApp.initializeApp(FirebaseApp.getInstance().applicationContext)
     }
 
-    var currentListState = this.productRepository.fetchProducts()
-    var userData = this.userRepo.fetchUserData()
+    fun getCartProductsList(cartProducts: List<Int>): Flow<Resource<List<Product?>>> {
+        return productsRepo.fetchProductsById(cartProducts)
+    }
 
+    fun removeProductFromCart(productId: Int) {
+        productsRepo.updateProductsCart(productId)
+    }
 
-    fun mapProducts(products: List<Product?>, likedProducts: List<Int>, productsCart: List<Int>): List<Product?> {
+    fun mapProducts(products: List<Product?>, likedProducts: List<Int>): List<Product?> {
         val mappedProducts: MutableList<Product?> = emptyList<Product>().toMutableList()
         var isLikedTemp = false
-        var isInCartTemp = false
 
-        // very weird way of mapping a product, but kotlin does not provide a better way (.map does not work)
-        products.forEach() { product ->
-            likedProducts.forEach {
-                if (product!!.id == it) {
+        products.forEach { product ->
+            likedProducts.forEach { likedProduct ->
+                if (product!!.id == likedProduct) {
                     isLikedTemp = true
-                }
-            }
-            productsCart.forEach {
-                if (product!!.id == it) {
-                    isInCartTemp = true
                 }
             }
             mappedProducts.add(
@@ -43,15 +43,24 @@ class HomeScreenViewModel {
                     created = product.created,
                     name = product.name,
                     isLiked = isLikedTemp,
-                    isInCart = isInCartTemp,
+                    isInCart = true,
                     description = product.description,
                     price = product.price,
                     seller = product.seller
                 )
             )
-            isInCartTemp = false
             isLikedTemp = false
         }
+
         return mappedProducts
+    }
+
+    fun getSumOfAllProducts(products: List<Product?>): Double {
+        var sum = 0.0
+
+        products.forEach {
+            sum += it!!.price
+        }
+        return sum
     }
 }

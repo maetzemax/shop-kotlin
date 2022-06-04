@@ -40,8 +40,7 @@ fun ProductOverView(
     product: Product,
     navigator: DestinationsNavigator,
 ) {
-
-    val viewModel: ProductViewModel = ProductViewModel(product)
+    val viewModel = ProductViewModel(product)
 
     val currencyFormatter = Formatters.CurrencyFormatter()
 
@@ -59,7 +58,7 @@ fun ProductOverView(
                 Icon(
                     Icons.Rounded.ArrowBack,
                     "BACK",
-                    Modifier.clickable { navigator.navigate(HomeScreenDestination()) }
+                    Modifier.clickable { navigator.navigateUp() }
                 )
 
                 Spacer(Modifier.weight(1f))
@@ -70,7 +69,7 @@ fun ProductOverView(
                         "Favorite",
                         Modifier.clickable {
                             viewModel.addToFavoriteItems(product.id)
-                            viewModel.updateLike(product)
+                            viewModel.updateLike()
                         },
                         Color.Red
                     )
@@ -80,7 +79,7 @@ fun ProductOverView(
                         "Favorite",
                         Modifier.clickable {
                             viewModel.addToFavoriteItems(product.id)
-                            viewModel.updateLike(product)
+                            viewModel.updateLike()
                         },
                         Color.Gray
                     )
@@ -159,9 +158,9 @@ fun ProductOverView(
                                             0xFF4160B4
                                         )
                                     )
-                                    .clickable { /*TODO: Add to Shopping Cart*/ }
+                                    .clickable { viewModel.updateProductsCart(product.id) }
                                     .padding(10.dp),
-                                text = "ZUM WARENKORB HINZUFÜGEN",
+                                text = if (!viewModel.isProductInCart) "ZUM WARENKORB HINZUFÜGEN" else "VOM WARENKORB ENTFERNEN",
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Color.White
                             )

@@ -53,20 +53,18 @@ class ProductsRepo {
     }
 
     fun addToLikedProducts(likedProduct: Int) {
-
-        Log.e("REACHED", "we are here party")
         val db = Firebase.firestore
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: throw Error()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: throw Error("No UID")
 
         db.collection("users").document(uid).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.e("Successful", "Lets go")
 
                 val likedProducts: List<Int> = task.result.data?.get("likedProducts") as List<Int>
                 var mutableLikedProducts = likedProducts.toMutableList()
                 var isInside = false
 
-                likedProducts.forEach {
+                // very weird way of checking but .contains does not work ¯\_(ツ)_/¯
+                likedProducts.forEach { it ->
                     if (it - likedProduct == 0)  {
                         isInside = true
                         mutableLikedProducts = mutableLikedProducts.filter { it -> it != likedProduct }.toMutableList()
@@ -109,6 +107,34 @@ class ProductsRepo {
 
         awaitClose() {
             snapshotListener.remove()
+        }
+    }
+
+    fun updateProductsCart(productId: Int) {
+        val db = Firebase.firestore
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: throw Error("No UID")
+
+        db.collection("users").document(uid).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val cartProducts: List<Int> = task.result.data?.get("cartProducts") as List<Int>
+                var mutableCartProducts = cartProducts.toMutableList()
+                var isInside = false
+
+                // very weird way of checking but .contains does not work ¯\_(ツ)_/¯
+                mutableCartProducts.forEach { product ->
+                    if (product - productId == 0) {
+                        isInside = true
+                        mutableCartProducts = mutableCartProducts.filter {it -> it != productId }.toMutableList()
+                    }
+                }
+
+                if (!isInside) {
+                    mutableCartProducts.add(productId)
+                }
+
+                Log.e("updatedCart", mutableCartProducts.toString())
+                val collection = db.collection("users").document(uid).update("cartProducts", mutableCartProducts)
+            }
         }
     }
 }
