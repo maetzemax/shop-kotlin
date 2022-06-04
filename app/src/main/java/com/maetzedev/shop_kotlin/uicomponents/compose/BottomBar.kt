@@ -8,6 +8,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.ShoppingCart
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maetzedev.shop_kotlin.screens.destinations.AddProductViewDestination
 import com.maetzedev.shop_kotlin.screens.destinations.CartViewDestination
 import com.maetzedev.shop_kotlin.screens.destinations.FavoriteDestination
 import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
@@ -44,6 +46,20 @@ fun BottomBar(
                     )
 
                     Text("Home")
+                }
+
+                Spacer(Modifier.weight(1f))
+
+                Column(
+                    Modifier.clickable { navigator.navigate(AddProductViewDestination) },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Icon(
+                        Icons.Rounded.Add,
+                        "Sell"
+                    )
+
+                    Text("Anbieten")
                 }
 
                 Spacer(Modifier.weight(1f))

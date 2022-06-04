@@ -32,5 +32,4 @@ class ProductViewModel(product: Product) {
         productsRepo.updateProductsCart(productId)
         isProductInCart = !isProductInCart
     }
-
 }

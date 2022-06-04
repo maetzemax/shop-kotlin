@@ -1,16 +1,21 @@
 package com.maetzedev.shop_kotlin.repositories
 
 import android.content.ContentValues.TAG
+import android.os.Build
 import android.util.Log
 import com.google.firebase.FirebaseApp
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.models.status.Resource
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
+import java.util.*
 
 
 class ProductsRepo {
@@ -50,6 +55,48 @@ class ProductsRepo {
         awaitClose() {
             snapshotListener.remove()
         }
+    }
+
+    fun addNewProduct(product: Product, imageByteArray: ByteArray) {
+        val db = Firebase.firestore
+        val username = FirebaseAuth.getInstance().currentUser?.displayName ?: throw Error("No UID")
+
+        db.collection("products")
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+
+                    val productMapped = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        hashMapOf(
+                            "created" to Timestamp.now(),
+                            "name" to product.name,
+                            "id" to UUID.randomUUID().variant(),
+                            "description" to product.description,
+                            "price" to product.price,
+                            "seller" to username,
+                            "docId" to product.docId,
+                            "category" to product.category
+                        )
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+
+                    db
+                        .collection("products")
+                        .document("${product.docId}")
+                        .set(productMapped)
+                        .addOnSuccessListener {
+                            Log.i("UPLOAD", "Erfolgreich hochgeladen")
+                            saveImage(byteArray = imageByteArray, docId = product.docId)
+                        }
+                        .addOnCanceledListener {
+                            Log.e("UPLOAD", "Upload konnte nicht erfolgreichdurchgeführt werden")
+                        }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.exception)
+                }
+            }
     }
 
     fun addToLikedProducts(likedProduct: Int) {
@@ -137,4 +184,57 @@ class ProductsRepo {
             }
         }
     }
+
+    fun saveImage(byteArray: ByteArray, docId: String) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.getReferenceFromUrl("gs://shop-2a2dd.appspot.com")
+        val productsRef = storageRef.child("$docId.jpg")
+        val productsSpaceRef = storageRef.child("productImages/$docId.jpg")
+
+        productsRef.name == productsSpaceRef.name
+        productsRef.path == productsSpaceRef.path
+
+        productsRef
+            .putBytes(byteArray)
+            .addOnFailureListener { exp ->
+                Log.e("Speichern", exp.toString())
+            }
+            .addOnSuccessListener { task ->
+                Log.i("Speicher", "Erfolgreich")
+                productImageURL(docId)
+            }
+    }
+
+    fun productImageURL(productDocId: String) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val pathReference = storageRef.child("$productDocId.jpg")
+
+        pathReference.downloadUrl.addOnSuccessListener {
+            setImageUrl(it.toString(), productDocId)
+        }
+    }
+
+    fun setImageUrl(downloadUrl: String, docId: String) {
+
+        val downloadUrlMap = hashMapOf(
+            "imageUrl" to downloadUrl
+        )
+
+        db.collection("products")
+            .get()
+            .addOnCompleteListener { task ->
+                    db
+                        .collection("products")
+                        .document("${docId}")
+                        .set(downloadUrlMap, SetOptions.merge())
+                        .addOnSuccessListener {
+                            Log.i("UPLOAD", "Erfolgreich hochgeladen")
+                        }
+                        .addOnCanceledListener {
+                            Log.e("UPLOAD", "Upload konnte nicht erfolgreichdurchgeführt werden")
+                        }
+
+                }
+            }
 }

@@ -1,7 +1,6 @@
 package com.maetzedev.shop_kotlin.screens.product
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,18 +14,17 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.google.firebase.Timestamp
-import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
-import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.utils.Formatters
@@ -41,6 +39,7 @@ fun ProductOverView(
     navigator: DestinationsNavigator,
 ) {
     val viewModel = ProductViewModel(product)
+    val coroutineScope = rememberCoroutineScope()
 
     val currencyFormatter = Formatters.CurrencyFormatter()
 
@@ -116,8 +115,8 @@ fun ProductOverView(
 
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        Image(
-                            painterResource(id = R.drawable.car_placeholder),
+                        AsyncImage(
+                            model = product.imageUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillWidth,
                             modifier = Modifier
@@ -198,7 +197,9 @@ fun ProductOverView_Preview() {
                 description = "testbeschreibung",
                 name = "testname",
                 seller = "Maetzi",
-                created = Timestamp.now()
+                created = Timestamp.now(),
+                category = "",
+                imageUrl = ""
             ),
             navigator = EmptyDestinationsNavigator
         )
