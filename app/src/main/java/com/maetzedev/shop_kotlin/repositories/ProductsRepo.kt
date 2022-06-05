@@ -70,7 +70,7 @@ class ProductsRepo {
                         hashMapOf(
                             "created" to Timestamp.now(),
                             "name" to product.name,
-                            "id" to UUID.randomUUID().variant(),
+                            "id" to UUID.randomUUID().hashCode(),
                             "description" to product.description,
                             "price" to product.price,
                             "seller" to username,
@@ -180,7 +180,7 @@ class ProductsRepo {
                 }
 
                 Log.e("updatedCart", mutableCartProducts.toString())
-                val collection = db.collection("users").document(uid).update("cartProducts", mutableCartProducts)
+                db.collection("users").document(uid).update("cartProducts", mutableCartProducts)
             }
         }
     }

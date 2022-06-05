@@ -35,7 +35,7 @@ fun SearchViewListRow(product: Product, navigator: DestinationsNavigator) {
 
             Column(
                 Modifier
-                    .requiredHeightIn(max = 250.dp)
+                    .requiredHeightIn(max = 350.dp)
                     .clip(RoundedCornerShape(size = 20.dp))
                     .background(Color.White)
                     .clickable { navigator.navigate(ProductOverViewDestination(product)) }
@@ -45,12 +45,12 @@ fun SearchViewListRow(product: Product, navigator: DestinationsNavigator) {
                     product.imageUrl,
                     contentDescription = null,
                     modifier = Modifier
-                        .aspectRatio(1.70f),
+                        .aspectRatio(1.70f)
+                        .requiredHeightIn(max = 200.dp),
                     placeholder = painterResource(id = R.drawable.car_placeholder)
-
                 )
 
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(60.dp))
 
                 Row {
                     Row(
