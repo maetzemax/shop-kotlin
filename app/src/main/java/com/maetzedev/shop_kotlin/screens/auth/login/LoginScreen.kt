@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +18,7 @@ import com.maetzedev.shop_kotlin.uicomponents.compose.texts.ErrorText
 import com.maetzedev.shop_kotlin.uicomponents.compose.texts.GrayText
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 /**
  * LoginScreen
@@ -26,11 +26,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * @param loginScreenViewModel LoginScreenViewModel - optional
  * @param navigator DestinationsNavigator - optional
  */
-@Destination(route = "login")
+@Destination()
 @Composable
 fun LoginScreen(
     loginScreenViewModel: LoginScreenViewModel? = LoginScreenViewModel(),
-    navigator: DestinationsNavigator?
+    navigator: DestinationsNavigator
 ) {
 
     val (email, setEmail) = remember { mutableStateOf("") }
@@ -71,25 +71,14 @@ fun LoginScreen(
 
             ErrorText(generalError)
 
-            PrimaryButton({
-                Text("Anmelden")
-            }) {
-                if (navigator != null) {
-                    loginScreenViewModel?.onClickLogin(email, password, setGeneralError, navigator)
-                }
-            }
+            PrimaryButton("Anmelden") { loginScreenViewModel?.onClickLogin(email, password, setGeneralError, navigator) }
 
             Spacer(Modifier.size(20.dp))
 
-            TextButton(
-                {
-                    if (navigator != null) {
-                        loginScreenViewModel?.onClickPasswordReset(navigator)
-                    }
-                },
-                Modifier.fillMaxWidth()
-            ) {
+            PrimaryTextButton({
                 Text("Passwort vergessen?")
+            }) {
+                loginScreenViewModel?.onClickPasswordReset(navigator)
             }
 
             Divider()
@@ -108,9 +97,7 @@ fun LoginScreen(
                 PrimaryTextButton({
                     Text("Registrieren")
                 }) {
-                    if (navigator != null) {
-                        loginScreenViewModel?.onClickRegister(navigator)
-                    }
+                    loginScreenViewModel?.onClickRegister(navigator)
                 }
             }
         }
@@ -128,5 +115,5 @@ fun LoginScreen(
 )
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen(null, null)
+    LoginScreen(null, EmptyDestinationsNavigator)
 }

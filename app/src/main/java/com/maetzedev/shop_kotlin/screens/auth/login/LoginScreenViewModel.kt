@@ -1,8 +1,14 @@
 package com.maetzedev.shop_kotlin.screens.auth.login
 
-import com.maetzedev.shop_kotlin.auth.UserAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.maetzedev.shop_kotlin.auth.*
+import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.PasswordResetScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import java.lang.Exception
+import kotlin.Exception
 
 /**
  * LoginScreenViewModel
@@ -42,21 +48,39 @@ class LoginScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
         }
     }
 
-    fun onClickLogin(email: String, password: String, setGeneralError: (String) -> Unit, navigator: DestinationsNavigator) {
+    fun onClickLogin(
+        email: String,
+        password: String,
+        setGeneralError: (String) -> Unit,
+        navigator: DestinationsNavigator
+    ) {
         try {
-            userAuth.login(email, password) {
-                // TODO: send user to home screen
-            }
+            userAuth.login(email, password, onSuccess = {
+                navigator.navigate(HomeScreenDestination)
+            },
+                onError = { task ->
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        setGeneralError("Passwort ist zu schwach")
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        setGeneralError("E-Mail Adresse ist nicht valide")
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        setGeneralError("Nutzer existiert bereits")
+                    } catch (e: Exception) {
+                        setGeneralError("Fehler bei der Anmeldung")
+                    }
+                })
         } catch (e: Exception) {
             setGeneralError(e.message.toString())
         }
     }
 
     fun onClickRegister(navigator: DestinationsNavigator) {
-        navigator.navigate("register")
+        navigator.navigate(RegisterScreenDestination)
     }
 
     fun onClickPasswordReset(navigator: DestinationsNavigator) {
-        navigator.navigate("passwordreset")
+        navigator.navigate(PasswordResetScreenDestination)
     }
 }

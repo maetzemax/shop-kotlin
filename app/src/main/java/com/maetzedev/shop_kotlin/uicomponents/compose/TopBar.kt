@@ -1,4 +1,4 @@
-package com.maetzedev.shop_kotlin.uicomponents.component
+package com.maetzedev.shop_kotlin.uicomponents.compose
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -12,12 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maetzedev.shop_kotlin.screens.destinations.SearchViewDestination
+import com.maetzedev.shop_kotlin.screens.destinations.SettingsScreenDestination
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 @Composable
 fun TopBar(
     title: String,
-    // navigator: DestinationsNavigator
+    navigator: DestinationsNavigator
 ) {
     ShopkotlinTheme {
         TopAppBar {
@@ -37,7 +41,7 @@ fun TopBar(
                     Icon(
                         Icons.Rounded.Search,
                         "Search",
-                        Modifier.clickable { TODO("Implementation of Navigation") }
+                        Modifier.clickable { navigator.navigate(SearchViewDestination) }
                     )
 
                     Spacer(Modifier.width(10.dp))
@@ -45,7 +49,7 @@ fun TopBar(
                     Icon(
                         Icons.Rounded.Settings,
                         "Settings",
-                        Modifier.clickable { TODO("Implementation of Navigation") }
+                        Modifier.clickable { navigator.navigate(SettingsScreenDestination) }
                     )
                 }
             }
@@ -66,7 +70,7 @@ fun TopBar(
 fun TopBar_Preview() {
     Scaffold(
         topBar ={
-            TopBar("Title")
+            TopBar("Title", EmptyDestinationsNavigator)
         }
     ) {
         Column(Modifier.padding(it)) {

@@ -1,6 +1,11 @@
 package com.maetzedev.shop_kotlin.screens.auth.register
 
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.maetzedev.shop_kotlin.auth.UserAuth
+import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
+import com.maetzedev.shop_kotlin.screens.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.lang.Exception
 
@@ -56,14 +61,35 @@ class RegisterScreenViewModel(private val userAuth: UserAuth = UserAuth()) {
     }
 
     fun onClickLogin(navigator: DestinationsNavigator) {
-        navigator.navigate("login")
+        navigator.navigate(LoginScreenDestination)
     }
 
-    fun onClickRegister(email: String, password: String, displayName: String, setGeneralError: (String) -> Unit, navigator: DestinationsNavigator) {
+    fun onClickRegister(
+        email: String,
+        password: String,
+        passwordConfirmation: String,
+        displayName: String,
+        setGeneralError: (String) -> Unit,
+        navigator: DestinationsNavigator
+    ) {
         try {
-            userAuth.register(email, password, displayName) {
-                // TODO: send user to home route
-            }
+            userAuth.register(email, password, passwordConfirmation, displayName,
+                onSuccess = {
+                    navigator.navigate(HomeScreenDestination)
+                },
+                onError = { task ->
+                    try {
+                        throw task.exception!!
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        setGeneralError("Passwort ist zu schwach")
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        setGeneralError("E-Mail Adresse ist nicht valide")
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        setGeneralError("Nutzer existiert bereits")
+                    } catch (e: Exception) {
+                        setGeneralError("Fehler bei der Anmeldung")
+                    }
+                })
         } catch (e: Exception) {
             setGeneralError(e.message.toString())
         }
