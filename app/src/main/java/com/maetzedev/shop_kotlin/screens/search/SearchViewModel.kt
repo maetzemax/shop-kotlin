@@ -44,7 +44,7 @@ class SearchViewModel {
                     price = product.price,
                     seller = product.seller,
                     category = product.category,
-                    imageUrl = product.category
+                    imageUrl = product.imageUrl
                 )
             )
             isInCartTemp = false
