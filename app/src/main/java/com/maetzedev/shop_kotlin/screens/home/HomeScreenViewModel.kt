@@ -46,7 +46,9 @@ class HomeScreenViewModel {
                     isInCart = isInCartTemp,
                     description = product.description,
                     price = product.price,
-                    seller = product.seller
+                    seller = product.seller,
+                    category = product.category,
+                    imageUrl = product.imageUrl
                 )
             )
             isInCartTemp = false

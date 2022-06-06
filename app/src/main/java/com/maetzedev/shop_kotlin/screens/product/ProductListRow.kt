@@ -1,7 +1,7 @@
 package com.maetzedev.shop_kotlin.screens.product
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.google.firebase.Timestamp
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
@@ -28,10 +30,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Destination
 @Composable
 fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
 
+    val coroutineScope = rememberCoroutineScope()
     val currencyFormatter = Formatters.CurrencyFormatter()
 
     val fontColor = MaterialTheme.colors.onBackground
@@ -47,11 +51,12 @@ fun ProductListRow(product: Product, navigator: DestinationsNavigator) {
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Image(
-                painterResource(id = R.drawable.car_placeholder),
+            AsyncImage(
+                product.imageUrl,
                 contentDescription = null,
                 modifier = Modifier
-                    .aspectRatio(1.70f)
+                    .aspectRatio(1.70f),
+                placeholder = painterResource(id = R.drawable.car_placeholder)
 
             )
 
@@ -128,7 +133,9 @@ fun ProductList_Preview() {
                     description = "testbeschreibung",
                     name = "testname",
                     seller = "Maetzi",
-                    created = Timestamp.now()
+                    created = Timestamp.now(),
+                    category = "",
+                    imageUrl = ""
                 ),
                 Product(
                     docId = "2",
@@ -137,7 +144,9 @@ fun ProductList_Preview() {
                     description = "testbeschreibung",
                     name = "testname",
                     seller = "Maetzi",
-                    created = Timestamp.now()
+                    created = Timestamp.now(),
+                    category = "",
+                    imageUrl = ""
                 ),
                 Product(
                     docId = "3",
@@ -146,7 +155,9 @@ fun ProductList_Preview() {
                     description = "testbeschreibung",
                     name = "testname",
                     seller = "Maetzi",
-                    created = Timestamp.now()
+                    created = Timestamp.now(),
+                    category = "",
+                    imageUrl = ""
                 ),
                 Product(
                     docId = "4",
@@ -155,7 +166,9 @@ fun ProductList_Preview() {
                     description = "testbeschreibung",
                     name = "testname",
                     seller = "Maetzi",
-                    created = Timestamp.now()
+                    created = Timestamp.now(),
+                    category = "",
+                    imageUrl = ""
                 )
             ),
             navigator = EmptyDestinationsNavigator

@@ -1,6 +1,5 @@
 package com.maetzedev.shop_kotlin.screens.cart
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.maetzedev.shop_kotlin.R
 import com.maetzedev.shop_kotlin.models.product.Product
 import com.maetzedev.shop_kotlin.utils.Formatters
@@ -38,21 +38,22 @@ fun CartViewListRow(product: Product, navigator: DestinationsNavigator, viewMode
 
             Column(
                 Modifier
-                    .requiredHeightIn(max = 250.dp)
+                    .requiredHeightIn(max = 320.dp)
                     .clip(RoundedCornerShape(size = 20.dp))
                     .background(Color.White)
                     .clickable { navigator.navigate(com.maetzedev.shop_kotlin.screens.destinations.ProductOverViewDestination(product)) }
                     .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painterResource(id = R.drawable.car_placeholder),
+                AsyncImage(
+                    product.imageUrl,
                     contentDescription = null,
                     modifier = Modifier
                         .aspectRatio(1.70f)
-
+                        .requiredHeightIn(max = 200.dp),
+                    placeholder = painterResource(id = R.drawable.car_placeholder)
                 )
 
-                Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(20.dp))
 
                 Row {
                     Row(
