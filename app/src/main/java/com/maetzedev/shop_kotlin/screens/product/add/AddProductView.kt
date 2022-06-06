@@ -12,21 +12,19 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maetzedev.shop_kotlin.screens.destinations.HomeScreenDestination
 import com.maetzedev.shop_kotlin.ui.theme.ShopkotlinTheme
 import com.maetzedev.shop_kotlin.uicomponents.compose.BottomBar
 import com.maetzedev.shop_kotlin.uicomponents.compose.TopBar
@@ -59,22 +57,9 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
             .padding(bottom = it.calculateBottomPadding(), top = 20.dp)
     ) {
         LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
             item {
-
-                BasicTextField(value = viewModel.nameText,
-                    singleLine = true,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                    ,
-                    onValueChange = {
-                        if (it.text.length <= viewModel.maxChar) {
-                            viewModel.nameText = it
-                        }
-                    },
-                )
 
                 TextField(
                     value = viewModel.nameText,
@@ -89,6 +74,10 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
                             viewModel.nameText = it
                         }
                     },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                    ),
+                    label = { Text("Produktname", fontWeight = FontWeight.SemiBold) }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -98,7 +87,10 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
                     modifier = Modifier
                         .fillMaxWidth(),
                     onValueChange = { viewModel.descriptionText = it },
-                    label = { Text("Beschreibung") }
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                    ),
+                    label = { Text("Produktbeschreibung", fontWeight = FontWeight.SemiBold) }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -107,9 +99,13 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
                     value = viewModel.priceText,
                     modifier = Modifier
                         .fillMaxWidth(),
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     onValueChange = { viewModel.priceText = it },
-                    label = { Text("Preis in Euro") }
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                    ),
+                    label = { Text("Preis in €", fontWeight = FontWeight.SemiBold) }
                 )
 
                 imageUri.let {
@@ -127,6 +123,13 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
                         bitmap.value = source?.let { it1 -> ImageDecoder.decodeBitmap(it1) }
                     }
 
+                    Button(
+                        onClick = { launcher.launch("image/*") },
+                        modifier = Modifier.padding(vertical = 5.dp),
+                    ) {
+                        Text("Öffne Galerie")
+                    }
+
                     bitmap.value?.let { btm ->
 
                         val baos = ByteArrayOutputStream()
@@ -137,15 +140,22 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
                             bitmap = btm.asImageBitmap(),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(400.dp)
+                                .aspectRatio(1.9f)
                                 .padding(20.dp)
                         )
 
                         Button(
                             onClick = {
-                                viewModel.addNewProduct(data)
-                                Toast.makeText(context, "Artikel angeboten!", Toast.LENGTH_LONG)
-                                    .show()
+                                if (data.isNotEmpty() && viewModel.nameText.text.isNotEmpty() && viewModel.descriptionText.text.isNotEmpty() && viewModel.priceText.toDouble() != 0.00) {
+                                    viewModel.addNewProduct(data)
+                                    Toast.makeText(context, "Artikel angeboten!", Toast.LENGTH_LONG)
+                                        .show()
+                                    navigator.navigate(HomeScreenDestination)
+                                } else {
+                                    Toast.makeText(context, "Eingabe fehlgeschlagen!", Toast.LENGTH_LONG)
+                                        .show()
+                                }
+
                             },
                             modifier = Modifier.padding(vertical = 5.dp)
                         ) {
@@ -153,13 +163,6 @@ fun AddProductView(viewModel: AddProductViewModel = AddProductViewModel(), navig
                         }
                     }
 
-                }
-
-                Button(
-                    onClick = { launcher.launch("image/*") },
-                    modifier = Modifier.padding(vertical = 5.dp)
-                ) {
-                    Text("Öffne Galerie")
                 }
             }
         }

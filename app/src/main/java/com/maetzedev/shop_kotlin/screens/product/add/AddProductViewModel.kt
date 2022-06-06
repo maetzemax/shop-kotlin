@@ -17,10 +17,10 @@ class AddProductViewModel: ViewModel() {
 
     var nameText by mutableStateOf(TextFieldValue(""))
     var descriptionText by mutableStateOf(TextFieldValue(""))
-    var priceText by mutableStateOf("0,00")
+    var priceText by mutableStateOf("0.00")
     val maxChar = 50
 
-    val username = FirebaseAuth.getInstance().currentUser?.displayName ?: throw Error("No UID")
+    private val username = FirebaseAuth.getInstance().currentUser?.displayName ?: throw Error("No UID")
 
     fun addNewProduct(data: ByteArray) {
        productsRepo.addNewProduct(

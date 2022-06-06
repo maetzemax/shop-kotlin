@@ -34,16 +34,14 @@ fun HomeScreen(
     val userData by viewModel.userData.collectAsState(initial = Resource.loading(null))
     val products = listState.data ?: emptyList()
 
-    
-
-    when (listState.status) {
-        Status.ERROR -> { // In case of an error:
-            Text("Error: ${listState.message}")
-        }
-        Status.LOADING -> { // Showed while the view is loading
-            Text("Loading ....") // TODO: Replace with proper animation.
-        }
-        else -> { // Show all results fetched from firebase
+        when (listState.status) {
+            Status.ERROR -> { // In case of an error:
+                Text("Error: ${listState.message}")
+            }
+            Status.LOADING -> { // Showed while the view is loading
+                Text("Loading ....") // TODO: Replace with proper animation.
+            }
+            else -> { // Show all results fetched from firebase
 
                 if (userData.status == Status.SUCCESS) {
                     val mappedProducts =
@@ -94,8 +92,8 @@ fun HomeScreen(
                         }
                     }
                 }
+            }
         }
-    }
 }
 
 @Preview(
