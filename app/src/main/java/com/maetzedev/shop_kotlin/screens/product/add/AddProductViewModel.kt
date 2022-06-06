@@ -39,4 +39,6 @@ class AddProductViewModel: ViewModel() {
            , imageByteArray = data
        )
     }
+
+
 }
